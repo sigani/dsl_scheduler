@@ -76,7 +76,7 @@ DISPLAY MONTH;
 }
 ```
 ### Note any important changes/feedback from TA discussion.  
-- TA gave feedback on how to make rich features more "rich", which I believe we have incorporated into our project  
+- TA gave feedback on how to make rich features more "rich", which we have incorporated into our project  
 ### Note any planned follow-up tasks or features still to design.  
 - Need to finalize implementation of a user (will they just be names or will they have more?)
 - Need to come up with a final design choice for our DSL
