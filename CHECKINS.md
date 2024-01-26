@@ -119,9 +119,9 @@ The person assigned to a component will also be responsible for writing their ow
 - Determine the people we sample for the test DSL
 ## Roadmap/timeline(s) for what should be done when, and how you will synchronize/check-in with each other to make sure progress is on-track. Talk clearly with your team members about your expectations for communication and progress, and what you will do as a team if someone falls behind.
 - Week 3: Sample/test the modified DSL with users, modify based on feedback
-- Week 4: Tokenizer and Parser finished, progress on evaluator and view
-- Week 5: Finish evaluator/MVP
-- Week 6: Finish up the project 
+- Week 4: First user study, Tokenizer and Parser finished, progress on evaluator and view, test planning
+- Week 5: Plan final user study, Finish evaluator/MVP, testing
+- Week 6: Final user study completed, Finish up the project, including testing
 - Plan to do weekly check ins via Discord at least once during the week (probably some time on the weekend), 
 ## Summary of progress so far.
 - Finally got into contact with the entire team.
