@@ -18,63 +18,78 @@ Users:
   - Compare schedules with peers for coordination.
   - Given a schedule and a list of tasks, create a new schedule that contains all tasks if possible.
 
-- **Rich Features:**
-  1. **Best Fit Schedule**
-  2. **Sharing Tasks Among Groups of People**
-  3. **Adding Task Dependencies (One task has to be completed before the next)**
+- **Rich Features: (updated 01/02/2024)**
+  1. **User made functions/callbacks**
+  2. **Conditionals**
+  3. **Loops**
 
 ## Possible Example Snippets
 
-### Example 1:
-```dsl
-CREATE schedule s1;
-CREATE task sleep;
-SET RECUR DAILY sleep;
-SET TIME START=2200 END=600 sleep;
-ADD sleep s1;
-CREATE task project;
-SET TIME DURATION=120 project;
-FIT project s1; # rich feature example 1
-DISPLAY s1;
-DISPLAY TODAY; # displays tasks that need to be done today
-DISPLAY WEEK;
-DISPLAY MONTH;
+### Preliminary Working Snippet (updated 01/02/2024, before applying user study feedback)
 ```
-### Example 2:
-```
-{
-    CREATE_TASK "Brainstorming DSL Ideas" {
-        description: "Look into possible ideas for the DSL",
-        deadline: "2024-01-20",
-        status: "In Progress"
-    }
+// example 1
+// simple project with 3 components with a group party of 3
 
-    CREATE_TASK "Build DSL Input Parser" {
-        description: "Build the parser that reads in the DSL input",
-        deadline: "2024-02-20",
-        status: "Not Started",
-        dependencies: "Brainstorming DSL Ideas"
-    }
+user jaren = "Jaren";
+user bob = "Bob";
+user minji = "Minji";
 
-    CREATE_TASK "Build DSL Evaluator" {
-        description: "Implement the project functionality",
-        deadline: "2024-03-20",
-        status: "Not Started",
-        dependencies: "Build DSL Input Parser",
-    }
+project school_project = "Project 1";
+set school_project {
+	description: "first project for cpscXXX",
+	deadline: "01/03/2024",
+};
 
-    ASSIGN "BrainStorming Ideas" to "Bob", "Joe", "Ada"
-    ASSIGN "Build DSL Input Parser" to "Joe"
-    ASSIGN "Write Code" to "Ada"
+task gather_info = "Find Sources";
+task perform_study = "Perform Research";
+task conduct_trial = "Conduct Trials";
 
-    SHARE_TASKS "Complete Assignment", "Research Topic", "Write Code" with "TeamA"
+set gather_info {
+	description: "find at least 3 sources online",
+	deadline: "07/02/2024",
+	users: {jaren, bob, minji},
+};
 
-    DEPENDENCY "Brainstorming DSL Ideas" must_be_completed_before "Build DSL Input Parser"
-    DEPENDENCY "Brainstorming DSL Ideas" must_be_completed_before "Build DSL Evaluator"
+set perform_study {
+	description: "research materials, gather important topics",
+	users: {jaren, minji},
+	deadline: "14/02/2024",
+	deps: {gather_info},
+};
 
-    COMPARE_SCHEDULES "Bob", "Joe", "Ada"
+set conduct_trial {
+	description: "find at least 3 people and perform tests",
+	deps: {perform_study},
 }
+
+set jaren {
+	email: "jaren@gmail.com"
+}
+
+set minji {
+	email: "jarenbf@gmail.com"
+}
+
+// the params can be thought of as
+// assign x to y, or assign conduct_trial to bob
+assign(conduct_trial, bob);
+
+// will also add all the other tasks that conduct_trials depends on
+assign(conduct_trial, school_project);
+
+// language feature 1
+// interval means the function will be called every midnight
+function remind_members(var1) interval "00:00" {
+	// language feature 2
+	if not finished(var1) {
+		ping(var1);
+	}
+};
+// then assign this function to the project
+assign(remind_members, school_project);
+display(school_project);
 ```
+
 ### Note any important changes/feedback from TA discussion.  
 - TA gave feedback on how to make rich features more "rich", which we have incorporated into our project  
 ### Note any planned follow-up tasks or features still to design.  
@@ -127,3 +142,56 @@ The person assigned to a component will also be responsible for writing their ow
 - Finally got into contact with the entire team.
 - Followed the feedback from Check In 1 and began development of an improved DSL with three language features (function definitions, conditionals, loops)
 
+
+# Outdated stuff that doesn't apply to the project anymore but maybe we might need but probably not but just to be safe lol
+### Example 1:
+```dsl
+CREATE schedule s1;
+CREATE task sleep;
+SET RECUR DAILY sleep;
+SET TIME START=2200 END=600 sleep;
+ADD sleep s1;
+CREATE task project;
+SET TIME DURATION=120 project;
+FIT project s1; # rich feature example 1
+DISPLAY s1;
+DISPLAY TODAY; # displays tasks that need to be done today
+DISPLAY WEEK;
+DISPLAY MONTH;
+```
+
+### Example 2:
+```
+{
+    CREATE_TASK "Brainstorming DSL Ideas" {
+        description: "Look into possible ideas for the DSL",
+        deadline: "2024-01-20",
+        status: "In Progress"
+    }
+
+    CREATE_TASK "Build DSL Input Parser" {
+        description: "Build the parser that reads in the DSL input",
+        deadline: "2024-02-20",
+        status: "Not Started",
+        dependencies: "Brainstorming DSL Ideas"
+    }
+
+    CREATE_TASK "Build DSL Evaluator" {
+        description: "Implement the project functionality",
+        deadline: "2024-03-20",
+        status: "Not Started",
+        dependencies: "Build DSL Input Parser",
+    }
+
+    ASSIGN "BrainStorming Ideas" to "Bob", "Joe", "Ada"
+    ASSIGN "Build DSL Input Parser" to "Joe"
+    ASSIGN "Write Code" to "Ada"
+
+    SHARE_TASKS "Complete Assignment", "Research Topic", "Write Code" with "TeamA"
+
+    DEPENDENCY "Brainstorming DSL Ideas" must_be_completed_before "Build DSL Input Parser"
+    DEPENDENCY "Brainstorming DSL Ideas" must_be_completed_before "Build DSL Evaluator"
+
+    COMPARE_SCHEDULES "Bob", "Joe", "Ada"
+}
+```
