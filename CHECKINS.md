@@ -213,7 +213,19 @@ function finish_and_notify (task task1){
 }
 ```
 
+## What changes to your language design have you made so far, or are considering?
+The changes that have been made (as of 01/02/2024) was from the feedback given from last check in (located as a reply to an issue)
 
+## Any changes to your project timeline/plan that you need to make?
+No change so far
+
+## Are there new tests you can write now, based on your current project status?
+### How can your snippets be made into unit tests, and for which component(s)?
+Based on the snippets, now we can start writing tests for lexer and parser. We can start by preparing several input data (probably a text file) for testing and deciding what the expected output will be.
+
+### What about planned error handling in your components? Tests for these?
+- Since we have not decided on rules (like what is considered as an error), we cannot add tests for error handing yet. 
+- Based on the user studies, we will finalize the rules for our DSL.
 
 # Outdated stuff that doesn't apply to the project anymore but maybe we might need but probably not but just to be safe lol
 ### Example 1:
