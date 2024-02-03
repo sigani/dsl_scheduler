@@ -142,6 +142,79 @@ The person assigned to a component will also be responsible for writing their ow
 - Finally got into contact with the entire team.
 - Followed the feedback from Check In 1 and began development of an improved DSL with three language features (function definitions, conditionals, loops)
 
+# Check in 3
+Jaren’s User Study
+- User was a person who is unfamiliar with programming
+- User was confused as to why a variable was being named twice
+    - For example: `task gather_material = “Gather Material”;`
+    - Perhaps an alternate design choice could be that if a user makes a task such that `task do_things;`, the name of the task will then be set to `do_things`, or left empty.  Perhaps this doesn’t matter
+- User often forgot the semicolons and the commas, however the indentations and spacings were all correct
+    - Perhaps we could ignore the semicolons and commas, similar to how python works
+- At first, the user was confused about how the deps field worked, but after another explanation, the user was able to utilize the deps field
+- There was an error given the following situation
+    - For example, there were three tasks (task1, task2, task3)
+    - task1 -> task2, and she wanted to say that task2 -> task3 (that task3 needs task 2 to be finished before task3 can start)
+    - But she declared it as…
+ ```
+task task3 = “some name”;
+set task3 {
+	…
+	deps: {task1, task2},
+	…
+}
+```
+    - In other words, she declared that task1 was a dependency to task3, even though that is implied through task2
+    - Nevertheless, the user really liked the dependency feature of the language
+- User put a literal date (such that …deadline: Feb 9, 2024…) instead of a stringified version of the date for a deadline
+    - We could have it so that any variation of date input works
+    - But this is lots of work D:
+- For assigning of tasks
+    - The user, instead of doing it as originally designed, did
+    - `assign task3 to project`
+    - We can consider making our language more higher level so that the targeted audience (people who needs to get projects done, could mainly be students but applies to anyone e.g corporate positions) could more easily make use of our DSL because right now, our language could be considered more similar to Python but while that is already a pretty high level language, the DSL in its current state may be hard for someone without any prior programming language to use)
+- The user suggested that after a project was completed, that a functionality to attach comments to the finished project to be a feature (for example, commenting on the grade achieved, what went well and what could have been better, feedback, etc…)
+    - Let's make it a stretch goal lol
+
+Yuhei’s User Study
+- User was a student who is familiar with programming and is interested in using this to organize project as a PM
+- User didn’t like the use of {} for an array (e.g. Users field in task) as he is used to using []. He suggested to remove it. No brackets.
+- Defining deps using set task1 {deps: {task2, task3}} is confusing. Not sure what kind of dependency it is defining. Does it mean task1 cannot be started until task2 and task3 are done, or the opposite? 
+    - He said only set deps {task1->task2} is enough (and maybe also remove set and make it deps {task1->task2}) . This makes it easier because dependencies can be organized in one place. Also, arrow is helpful.
+- while (task.nextDependency != null) is too technical (like the use of null). Instead of (task.nextDependency != null), make a hasDependency(task) and use it inside while (e.g. while hasDependeny(task)) or just use “for (task.dependencies)” to iterate over task’s dependency. This leads to a suggestion to make a bunch of predefined function (i.e equals (x, y), greater(x, y), smaller(x, y), and so on), instead of make users use =, >. Also, this makes the syntax standardized in the form of name(some arguments).
+- User understood what the functionality of define function does and how to define a function, but was unsure of how to utilize it effectively. To make it more effective, user wants more pre-defined functionality like print() and ping().
+- User liked the callback functionality, but suggested instead of putting Callbacks: {onUnblock: function,} inside task, make for example callBack(task1, onUnblock->function). This way user can add callBack not only to task but maybe to user and project as well.
+
+Leo’s User Study:
+User was a Computer Science Major with previous work experience as Software Engineer Intern
+
+- He was able to easily understand the system types and what initializing variables did
+- He was at first confused at the 2 ways of defining a task (one with only name and one with additional fields)
+- He thought it would be simpler if we just had one way of defining a task with the curly braces and then make the fields inside optional.
+- Also regarding task definition, he was confused as to why we had to define the dependencies in the variable definition and also in the set_deps command.
+- He also mentioned that in the variable definition for task, it is not clear what direction the dependencies are taken. Meaning, does this task has to be completed before the ones listed in “deps” or the other way round
+- Creating the user variable was intuitive. He simply asked if there was any sort of validation. For example do we look for “@” in the email
+- User was confused as to why he was allowed to set dependencies in the “task” field for the project variable definition
+- He also had a lot of questions about how inter-project dependency would work.
+- Does it mean that every task in one project has to be completed before the other project is unlocked?
+- Can tasks in one project have dependencies with tasks in other projects?
+- He found it added a lot of confusion
+- He then proceed to building a function
+    - He first asked if the function could he could choose the amount of variables the function would take
+    - He wanted a function that would mark a current task as finished and then ping the user who was blocked on the current task
+    - He asked how he could access the fields within a variable
+    - He assumed that there would be no errors. I.e deps[0] doesn’t throw an error if the list of dependencies is empty, and ping doesn’t throw an error if the value being passed is null
+    - He thought it would be good to add a better way of checking for null/non existing variables
+    - This is the function he built:
+``` 
+function finish_and_notify (task task1){
+        	finished(task)
+        	//loop through users in the task
+        	for (user: task.Deps[0].Users)
+                    	ping(user)
+}
+```
+
+
 
 # Outdated stuff that doesn't apply to the project anymore but maybe we might need but probably not but just to be safe lol
 ### Example 1:
