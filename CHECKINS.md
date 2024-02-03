@@ -143,7 +143,7 @@ The person assigned to a component will also be responsible for writing their ow
 - Followed the feedback from Check In 1 and began development of an improved DSL with three language features (function definitions, conditionals, loops)
 
 # Check in 3
-Jaren’s User Study
+## Jaren’s User Study
 - User was a person who is unfamiliar with programming
 - User was confused as to why a variable was being named twice
     - For example: `task gather_material = “Gather Material”;`
@@ -175,7 +175,7 @@ set task3 {
 - The user suggested that after a project was completed, that a functionality to attach comments to the finished project to be a feature (for example, commenting on the grade achieved, what went well and what could have been better, feedback, etc…)
     - Let's make it a stretch goal lol
 
-Yuhei’s User Study
+## Yuhei’s User Study
 - User was a student who is familiar with programming and is interested in using this to organize project as a PM
 - User didn’t like the use of {} for an array (e.g. Users field in task) as he is used to using []. He suggested to remove it. No brackets.
 - Defining deps using set task1 {deps: {task2, task3}} is confusing. Not sure what kind of dependency it is defining. Does it mean task1 cannot be started until task2 and task3 are done, or the opposite? 
@@ -184,9 +184,8 @@ Yuhei’s User Study
 - User understood what the functionality of define function does and how to define a function, but was unsure of how to utilize it effectively. To make it more effective, user wants more pre-defined functionality like print() and ping().
 - User liked the callback functionality, but suggested instead of putting Callbacks: {onUnblock: function,} inside task, make for example callBack(task1, onUnblock->function). This way user can add callBack not only to task but maybe to user and project as well.
 
-Leo’s User Study:
-User was a Computer Science Major with previous work experience as Software Engineer Intern
-
+## Leo’s User Study:
+- User was a Computer Science Major with previous work experience as Software Engineer Intern
 - He was able to easily understand the system types and what initializing variables did
 - He was at first confused at the 2 ways of defining a task (one with only name and one with additional fields)
 - He thought it would be simpler if we just had one way of defining a task with the curly braces and then make the fields inside optional.
