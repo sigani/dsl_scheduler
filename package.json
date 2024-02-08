@@ -11,5 +11,8 @@
     "url": "git@github.students.cs.ubc.ca:CPSC410-2023W-T2/Group22Project1.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^10.3.0"
+  }
 }
