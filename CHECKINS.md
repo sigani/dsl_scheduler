@@ -227,6 +227,30 @@ Based on the snippets, now we can start writing tests for lexer and parser. We c
 - Since we have not decided on rules (like what is considered as an error), we cannot add tests for error handing yet. 
 - Based on the user studies, we will finalize the rules for our DSL.
 
+# Check in 4
+## Status of implementation.
+### Component-wise progress
+- Tokenizer: in progress, and planned to be done by Wednesday
+- Parser: in progress, and planned to be done by Wednesday
+- Evaluator: planned to be done by the end of the next week
+- View: haven't been started, planned to be done by the end of the next week
+### Which tests are passing, and which not?
+- We are somewhat behind on the schedule, we are not at the stage of testing. 
+### Which extra tests still need to be written/made?
+- I don't think we have extra testes need to be written at this point yet.
+
+## Plans for final user study
+### Are there any major differences from the previous one? If so, what are the reasons?
+- We are not planning to have major changes from the previous one as the previous user study was effective enough to provide us with some insights into our DSL.
+### Make sure to find suitable users (different from the first study!)
+- Yes, we are planning to have different suitable users for the final user study.
+
+## Planned timeline for the remaining days
+### Plans for integration/end-to-end testing
+- We are planning to start integration/end-to-end testing from the week of February 18th. 
+### Make sure to schedule some time for bug-fixing!
+- We are going to spend the second half of the week of February 18th for bug-fixing.
+
 # Outdated stuff that doesn't apply to the project anymore but maybe we might need but probably not but just to be safe lol
 ### Example 1:
 ```dsl
