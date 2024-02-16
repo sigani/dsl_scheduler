@@ -321,24 +321,24 @@ We need to improve our coordination and deadline management skills
 
 No major changes, but in order to build the AST, we're using Typescript to make inheritance more clear and safe
 
-- **What will these improvements enable?
+- **What will these improvements enable?**
 
 Switching to Typescript will reduce the amount of errors and improve readability. Also makes collaboration easier.
 
-- **Plans for final video (possible draft version). 
+- **Plans for final video (possible draft version). **
 
 Nothing fancy, just a video going over a user playing around with our language features
 
-- **Who is responsible for the rest?
+- **Who is responsible for the rest?**
 
 The job responsabilities have stayed the same
 
-- **Planned timeline for the remaining days.
+- **Planned timeline for the remaining days.**
 
 Tuesday - Working Tokenizer, Parser, and Evaluator (without callbacks).
 Friday - Most of the project complete
 Sunday - All bugs fixed and ready to demo
 Monday (26th) DEADLINE
 
-- **What is there left to do?
+- **What is there left to do?**
 So much ( ⚆ _ ⚆ )
