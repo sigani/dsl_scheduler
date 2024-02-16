@@ -303,3 +303,34 @@ DISPLAY MONTH;
     COMPARE_SCHEDULES "Bob", "Joe", "Ada"
 }
 ```
+Check-in 5 Report Items
+
+- Status of user study (should be completed this week at the latest)
+Not Completed yet because a minimal implmentation was not completed in time
+
+- If you've done it, what were the findings? Did it go smoothly?
+NA
+
+- What are the key elements of feedback you've learned from it?
+We need to improve our coordination and deadline management skills
+
+- Are there any last changes to your design, implementation or tests?
+No major changes, but in order to build the AST, we're using Typescript to make inheritance more clear and safe
+
+- What will these improvements enable?
+Switching to Typescript will reduce the amount of errors and improve readability. Also makes collaboration easier.
+
+- Plans for final video (possible draft version). 
+Nothing fancy, just a video going over a user playing around with our language features
+
+- Who is responsible for the rest?
+The job responsabilities have stayed the same
+
+- Planned timeline for the remaining days.
+Tuesday - Working Tokenizer, Parser, and Evaluator (without callbacks).
+Friday - Most of the project complete
+Sunday - All bugs fixed and ready to demo
+Monday (26th) DEADLINE
+
+- What is there left to do?
+So much ( ⚆ _ ⚆ )
