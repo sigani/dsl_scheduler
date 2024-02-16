@@ -1,11 +1,12 @@
 {
+  "type": "module",
   "name": "project",
   "version": "1.0.0",
   "description": "for cpsc410",
   "main": "index.js",
   "scripts": {
     "test": "mocha src/test/*.js",
-    "antlr": "antlr4 -Dlanguage=JavaScript src/parser/TaskProjectLexer.g4"
+    "antlr": "antlr4 -Dlanguage=JavaScript -o src/parser/ src/parser/TaskProjectLexer.g4 src/parser/TaskProjectParser.g4"
   },
   "repository": {
     "type": "git",

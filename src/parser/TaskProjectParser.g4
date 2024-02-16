@@ -4,7 +4,7 @@ options { tokenVocab=TaskProjectLexer; }
 
 program: (taskProject | user_decl | set_decl | func_decl | func_invk | var_set )* EOF;
 taskProject: 
-        TASK_PROJ TEXT* WS* (OB TASK_PROJ_FIELDS* CB)+ SC;
+        TASK_PROJ TEXT* WS* (OB WS* TASK_PROJ_FIELDS* WS* CB)+ SC;
 
 user_decl:
         USER TEXT* WS* (OB USER_FIELDS* CB)+ SC;

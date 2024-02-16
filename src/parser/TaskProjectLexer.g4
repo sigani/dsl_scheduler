@@ -1,15 +1,15 @@
 lexer grammar TaskProjectLexer;
 
 TASK_PROJ: ('task' | 'project' ) WS*;
-TASK_PROJ_FIELDS: (('name' | 'description' | 'deadline' | 'status') COLON '"' TEXT '"' (',')+)
+TASK_PROJ_FIELDS: (('name' | 'description' | 'deadline' | 'status') WS*  COLON  WS* QUOTED_TEXT WS* (','WS*)? WS*)
             |
-            ('priority' COLON NUM (',')+)
+            ('priority' WS* COLON WS* NUM+ WS* (','WS*)? WS*)
             |
-            (('deps' | 'users') COLON OB (TEXT':'TEXT)* CB (',')+)
+            (('deps' | 'users') COLON WS* OB WS* (TEXT COLON TEXT)* CB (','WS*)? WS*)
             |
-            'tasks' COLON OB ((TEXT':'TEXT','+WS*) | (TEXT'->'TEXT','+WS*)) CB 
+            'tasks' COLON OB ((TEXT':'TEXT','+WS*) | (TEXT'->'TEXT','+WS*)) CB (','WS*)? WS*
             |
-            'callbacks' COLON OB (TEXT':'TEXT)* CB (',')+
+            'callbacks' COLON OB (TEXT':'TEXT)* CB (','WS*)? WS*
             ;
 
 USER: 'user' WS*;
@@ -37,10 +37,11 @@ TEXTARROW: (TEXT* '->' TEXT* ','+ WS*);
 NUM: [0-9]+;
 TEXT: [a-zA-Z][a-zA-Z0-9_]*;
 WS : [\r\n\t ]+ -> channel(HIDDEN);
-COLON: WS* ':' WS*;
+COLON: ':';
 SC: ';' WS*;
-OB: '{' WS*;
-CB: '}' WS*;
+OB: '{' ;
+CB: '}' ;
 COMMA: ',' WS*;
 ORB: '(' WS*;
 CRB: ')' WS*;
+QUOTED_TEXT : '"' (~["])* '"';
