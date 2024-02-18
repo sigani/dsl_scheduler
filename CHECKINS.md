@@ -1,5 +1,122 @@
 # Task Organizer/Visualizer
 
+## Overview of main language features:
+```
+// “system” types
+task
+project
+user
+
+// example uses of types
+task nameoftask “Name of task”; // this will just set the name of the task
+
+task nameoftask {
+    Name: “”,
+    Description: “”,
+    Deadline: “”,
+    Progress: “”, // defaults are (not started, in progress, completed).
+            // users may be able to add custom statuses, but not remove/alter these ones
+    Priority: 9 // any number, up to the user to decide what that means.  Default is 0
+    Deps: {task1, task2},
+    Users: {user1, user2},
+    Callbacks: {onUnblock: function,},
+}; // can omit some fields
+
+user nameofuser {
+    Name: “”,
+    Email: “”,
+    Tasks: {},
+    Projects: {},
+    Additional: {},
+//key value array of additional information.  May be useful for user defined functions
+};
+project nameofproject {task1, task2};
+project nameofproject “name of project” // similar to tasks;
+project nameofproject2 {
+    Name: “”,
+    Description: “”,
+    Deadline: “”,
+    Status: “”,
+Priority: 1,
+    Deps: {project2}, // projects could possibly be dependencies to another project
+    Users: {},
+    Tasks: {task1, task2, task3->task4},
+};
+
+user nameofuser2;
+task do_work;
+
+// DSLs way to define fields of a variable
+// Basically select the field and set it
+// If for some reason they put 2 of the same fields (like 2 names),
+// only the last one will be applied
+// If they try to set a field that doesn’t exist, will throw error by tokenizer i think
+set nameofuser2 {
+    Name: “”,
+    Group: “”,
+    Email: “”,
+}; 
+
+set do_work {
+    Name: ”test”,
+    Users: {nameofuser2},
+};
+
+// special way to set dependencies
+set deps {
+    task1->task2->task3,
+    task1->task4,
+    task4->task5,
+    project1->project2,
+    task6->project3,
+    project4->task7
+};
+
+// “system” functions
+date() // todays date
+time() // the time at this moment
+
+assign(task, user) // will set one of the users of a task to user
+assign(project, user) // will assign a project to a user
+assign(task, project)
+
+print(task)
+print(user)
+print(project)
+print(string)
+
+ping(user)
+ping(task) // pings (via email) all people connected to a task or project
+ping(project)
+ping(task, “message”) // attach special message
+
+// also works with projects
+started(task) // returns true if the status of task is “in progress”
+blocked(task) // returns true if the task’s dependencies have tasks that aren’t completed yet.
+finished(task) // returns true if the status of task is completed
+
+// getter/setter functions for users, tasks and projects
+// e.g user.name, task.name, project.deadline
+// task.name = “Finish DSL”
+
+// users can define their dependencies
+// language feature 1
+function compare_tasks(task task1, task task2) {
+    // whatever the user wants
+    if dependency(task1, task2) {
+        // do stuff
+    }
+}
+
+// example user defined function
+function print_schedule(){
+    // language feature 2 and 3 (loops and conditionals)
+    While task.nextDependency != null
+        print(task.name)
+}
+```
+
+
 Use Case: 
 Users: 
 ## CHECK IN 1
@@ -251,94 +368,35 @@ Based on the snippets, now we can start writing tests for lexer and parser. We c
 ### Make sure to schedule some time for bug-fixing!
 - We are going to spend the second half of the week of February 18th for bug-fixing.
 
-# Outdated stuff that doesn't apply to the project anymore but maybe we might need but probably not but just to be safe lol
-### Example 1:
-```dsl
-CREATE schedule s1;
-CREATE task sleep;
-SET RECUR DAILY sleep;
-SET TIME START=2200 END=600 sleep;
-ADD sleep s1;
-CREATE task project;
-SET TIME DURATION=120 project;
-FIT project s1; # rich feature example 1
-DISPLAY s1;
-DISPLAY TODAY; # displays tasks that need to be done today
-DISPLAY WEEK;
-DISPLAY MONTH;
-```
 
-### Example 2:
-```
-{
-    CREATE_TASK "Brainstorming DSL Ideas" {
-        description: "Look into possible ideas for the DSL",
-        deadline: "2024-01-20",
-        status: "In Progress"
-    }
-
-    CREATE_TASK "Build DSL Input Parser" {
-        description: "Build the parser that reads in the DSL input",
-        deadline: "2024-02-20",
-        status: "Not Started",
-        dependencies: "Brainstorming DSL Ideas"
-    }
-
-    CREATE_TASK "Build DSL Evaluator" {
-        description: "Implement the project functionality",
-        deadline: "2024-03-20",
-        status: "Not Started",
-        dependencies: "Build DSL Input Parser",
-    }
-
-    ASSIGN "BrainStorming Ideas" to "Bob", "Joe", "Ada"
-    ASSIGN "Build DSL Input Parser" to "Joe"
-    ASSIGN "Write Code" to "Ada"
-
-    SHARE_TASKS "Complete Assignment", "Research Topic", "Write Code" with "TeamA"
-
-    DEPENDENCY "Brainstorming DSL Ideas" must_be_completed_before "Build DSL Input Parser"
-    DEPENDENCY "Brainstorming DSL Ideas" must_be_completed_before "Build DSL Evaluator"
-
-    COMPARE_SCHEDULES "Bob", "Joe", "Ada"
-}
-```
-Check-in 5 Report Items
-
-- **Status of user study (should be completed this week at the latest)**
-
+# Check-in 5 
+## Report Items
+### Status of user study (should be completed this week at the latest)
 Not Completed yet because a minimal implmentation was not completed in time
 
-- **If you've done it, what were the findings? Did it go smoothly?**
-
+### If you've done it, what were the findings? Did it go smoothly?
 NA
 
-- **What are the key elements of feedback you've learned from it?**
-
+### What are the key elements of feedback you've learned from it?
 We need to improve our coordination and deadline management skills
 
-- **Are there any last changes to your design, implementation or tests?**
-
+### Are there any last changes to your design, implementation or tests?
 No major changes, but in order to build the AST, we're using Typescript to make inheritance more clear and safe
 
-- **What will these improvements enable?**
-
+### What will these improvements enable?
 Switching to Typescript will reduce the amount of errors and improve readability. Also makes collaboration easier.
 
-- **Plans for final video (possible draft version). **
-
+### Plans for final video (possible draft version).
 Nothing fancy, just a video going over a user playing around with our language features
 
-- **Who is responsible for the rest?**
-
+### Who is responsible for the rest?
 The job responsabilities have stayed the same
 
-- **Planned timeline for the remaining days.**
-
+### Planned timeline for the remaining days.
 Tuesday - Working Tokenizer, Parser, and Evaluator (without callbacks).
 Friday - Most of the project complete
 Sunday - All bugs fixed and ready to demo
 Monday (26th) DEADLINE
 
-- **What is there left to do?**
+### What is there left to do?
 So much ( ⚆ _ ⚆ )
