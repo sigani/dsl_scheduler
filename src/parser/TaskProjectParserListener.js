@@ -14,66 +14,147 @@ export default class TaskProjectParserListener extends antlr4.tree.ParseTreeList
 	}
 
 
-	// Enter a parse tree produced by TaskProjectParser#taskProject.
-	enterTaskProject(ctx) {
+	// Enter a parse tree produced by TaskProjectParser#task.
+	enterTask(ctx) {
 	}
 
-	// Exit a parse tree produced by TaskProjectParser#taskProject.
-	exitTaskProject(ctx) {
-	}
-
-
-	// Enter a parse tree produced by TaskProjectParser#user_decl.
-	enterUser_decl(ctx) {
-	}
-
-	// Exit a parse tree produced by TaskProjectParser#user_decl.
-	exitUser_decl(ctx) {
+	// Exit a parse tree produced by TaskProjectParser#task.
+	exitTask(ctx) {
 	}
 
 
-	// Enter a parse tree produced by TaskProjectParser#set_decl.
-	enterSet_decl(ctx) {
+	// Enter a parse tree produced by TaskProjectParser#taskBody.
+	enterTaskBody(ctx) {
 	}
 
-	// Exit a parse tree produced by TaskProjectParser#set_decl.
-	exitSet_decl(ctx) {
-	}
-
-
-	// Enter a parse tree produced by TaskProjectParser#func_decl.
-	enterFunc_decl(ctx) {
-	}
-
-	// Exit a parse tree produced by TaskProjectParser#func_decl.
-	exitFunc_decl(ctx) {
+	// Exit a parse tree produced by TaskProjectParser#taskBody.
+	exitTaskBody(ctx) {
 	}
 
 
-	// Enter a parse tree produced by TaskProjectParser#func_fields.
-	enterFunc_fields(ctx) {
+	// Enter a parse tree produced by TaskProjectParser#taskProperty.
+	enterTaskProperty(ctx) {
 	}
 
-	// Exit a parse tree produced by TaskProjectParser#func_fields.
-	exitFunc_fields(ctx) {
-	}
-
-
-	// Enter a parse tree produced by TaskProjectParser#var_set.
-	enterVar_set(ctx) {
-	}
-
-	// Exit a parse tree produced by TaskProjectParser#var_set.
-	exitVar_set(ctx) {
+	// Exit a parse tree produced by TaskProjectParser#taskProperty.
+	exitTaskProperty(ctx) {
 	}
 
 
-	// Enter a parse tree produced by TaskProjectParser#func_invk.
-	enterFunc_invk(ctx) {
+	// Enter a parse tree produced by TaskProjectParser#project.
+	enterProject(ctx) {
 	}
 
-	// Exit a parse tree produced by TaskProjectParser#func_invk.
-	exitFunc_invk(ctx) {
+	// Exit a parse tree produced by TaskProjectParser#project.
+	exitProject(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#projectBody.
+	enterProjectBody(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#projectBody.
+	exitProjectBody(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#projectProperty.
+	enterProjectProperty(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#projectProperty.
+	exitProjectProperty(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#setName.
+	enterSetName(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setName.
+	exitSetName(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#setDescription.
+	enterSetDescription(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setDescription.
+	exitSetDescription(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#setDeadline.
+	enterSetDeadline(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setDeadline.
+	exitSetDeadline(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#setStatus.
+	enterSetStatus(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setStatus.
+	exitSetStatus(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#setPriority.
+	enterSetPriority(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setPriority.
+	exitSetPriority(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#setDeps.
+	enterSetDeps(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setDeps.
+	exitSetDeps(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#setUsers.
+	enterSetUsers(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setUsers.
+	exitSetUsers(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#setTasks.
+	enterSetTasks(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setTasks.
+	exitSetTasks(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#array.
+	enterArray(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#array.
+	exitArray(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#varname.
+	enterVarname(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#varname.
+	exitVarname(ctx) {
 	}
 
 
