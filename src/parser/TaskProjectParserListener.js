@@ -41,6 +41,15 @@ export default class TaskProjectParserListener extends antlr4.tree.ParseTreeList
 	}
 
 
+	// Enter a parse tree produced by TaskProjectParser#set_deps.
+	enterSet_deps(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#set_deps.
+	exitSet_deps(ctx) {
+	}
+
+
 	// Enter a parse tree produced by TaskProjectParser#func_decl.
 	enterFunc_decl(ctx) {
 	}
@@ -56,6 +65,24 @@ export default class TaskProjectParserListener extends antlr4.tree.ParseTreeList
 
 	// Exit a parse tree produced by TaskProjectParser#func_fields.
 	exitFunc_fields(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#condition.
+	enterCondition(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#condition.
+	exitCondition(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#statement.
+	enterStatement(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#statement.
+	exitStatement(ctx) {
 	}
 
 
