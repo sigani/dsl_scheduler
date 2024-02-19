@@ -3,44 +3,46 @@
 ## Overview of main language features:
 ```
 // “system” types
-task
-project
-user
+// task
+// project
+// user
 
 // example uses of types
-task nameoftask “Name of task”; // this will just set the name of the task
+task nameoftask "Name of task"; // this will just set the name of the task
 
 task nameoftask {
-    Name: “”,
-    Description: “”,
-    Deadline: “”,
-    Progress: “”, // defaults are (not started, in progress, completed).
+    name: "",
+    description: "",
+    deadline: "",
+    progress: "", 
+            // defaults are (not started, in progress, completed).
             // users may be able to add custom statuses, but not remove/alter these ones
-    Priority: 9 // any number, up to the user to decide what that means.  Default is 0
-    Deps: {task1, task2},
-    Users: {user1, user2},
-    Callbacks: {onUnblock: function,},
+            // any number, up to the user to decide what that means.  Default is 0
+    priority: 9, 
+    deps: {task1, task2},
+    users: {user1, user2},
+    callbacks: {onUnblock: function,},
 }; // can omit some fields
 
 user nameofuser {
-    Name: “”,
-    Email: “”,
-    Tasks: {},
-    Projects: {},
-    Additional: {},
+    name: "",
+    email: "",
+    tasks: {},
+    projects: {WIIIIIIRDS},
+    additional: {"test": "test", "TTE":"TESD"},
 //key value array of additional information.  May be useful for user defined functions
 };
 project nameofproject {task1, task2};
-project nameofproject “name of project” // similar to tasks;
+project nameofproject "name of project"; // similar to tasks
 project nameofproject2 {
-    Name: “”,
-    Description: “”,
-    Deadline: “”,
-    Status: “”,
-Priority: 1,
-    Deps: {project2}, // projects could possibly be dependencies to another project
-    Users: {},
-    Tasks: {task1, task2, task3->task4},
+    name: "",
+    description: "",
+    deadline: "",
+    progress: "",
+    priority: 1, 
+    deps: {project2}, // projects could possibly be dependencies to another project
+    users: {d},
+    tasks: {task1, task2, task3->task4},
 };
 
 user nameofuser2;
@@ -50,21 +52,19 @@ task do_work;
 // Basically select the field and set it
 // If for some reason they put 2 of the same fields (like 2 names),
 // only the last one will be applied
-// If they try to set a field that doesn’t exist, will throw error by tokenizer i think
 set nameofuser2 {
-    Name: “”,
-    Group: “”,
-    Email: “”,
+    name: "",
+    email: "",
 }; 
 
 set do_work {
-    Name: ”test”,
-    Users: {nameofuser2},
+    name: "test",
+    users: {nameofuser2},
 };
 
 // special way to set dependencies
 set deps {
-    task1->task2->task3,
+    task1->task2,
     task1->task4,
     task4->task5,
     project1->project2,
@@ -73,27 +73,27 @@ set deps {
 };
 
 // “system” functions
-date() // todays date
-time() // the time at this moment
+date(); // todays date
+time(); // the time at this moment
 
-assign(task, user) // will set one of the users of a task to user
-assign(project, user) // will assign a project to a user
-assign(task, project)
+assign(task2, user1); // will set one of the users of a task to user
+assign(project1, user1); // will assign a project to a user
+assign(task1, project1);
 
-print(task)
-print(user)
-print(project)
-print(string)
+print(task1);
+print(user1);
+print(project1);
+print(string);
 
-ping(user)
-ping(task) // pings (via email) all people connected to a task or project
-ping(project)
-ping(task, “message”) // attach special message
+ping(user1);
+ping(task1); // pings (via email) all people connected to a task or project
+ping(project1);
+ping(task1, "message"); // attach special message
 
 // also works with projects
-started(task) // returns true if the status of task is “in progress”
-blocked(task) // returns true if the task’s dependencies have tasks that aren’t completed yet.
-finished(task) // returns true if the status of task is completed
+started(task1); // returns true if the status of task is “in progress”
+blocked(task1); // returns true if the task’s dependencies have tasks that aren’t completed yet.
+finished(task1); // returns true if the status of task is completed
 
 // getter/setter functions for users, tasks and projects
 // e.g user.name, task.name, project.deadline
@@ -103,17 +103,21 @@ finished(task) // returns true if the status of task is completed
 // language feature 1
 function compare_tasks(task task1, task task2) {
     // whatever the user wants
-    if dependency(task1, task2) {
+    if (dependency(task1, task2)) {
         // do stuff
+        print(task.name);
+        WHEEEE(teese);
+        testasdasdkl();
     }
-}
+};
 
 // example user defined function
 function print_schedule(){
     // language feature 2 and 3 (loops and conditionals)
-    While task.nextDependency != null
-        print(task.name)
-}
+    while (task.nextDependency != null) {
+        print(task.name);
+    }
+};
 ```
 
 
