@@ -26,7 +26,7 @@ array: OPEN_BRACES (TEXT COMMA)* ((TEXT COMMA) | TEXT) CLOSE_BRACES;
 varname: TEXT;
 
 
-
+// TODO: comment out for now
 //program: (taskProject | user_decl | set_decl | func_decl | func_invk | var_set )* EOF;
 //taskProject:
 //        TASK_PROJ TEXT* WS* (OB WS* TASK_PROJ_FIELDS* WS* CB)+ SC;

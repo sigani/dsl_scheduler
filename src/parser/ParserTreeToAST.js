@@ -1,23 +1,25 @@
 import TaskProjectParserVisitor from "./TaskProjectParserVisitor.js";
+import Program from "../ast/Program.js";
 import Task from "../ast/Task.js";
 
 export default class ParserTreeToAST extends TaskProjectParserVisitor{
+    // TODO: error hundling (like variable not declared)
     tasksTrack = new Map();
     projectsTrack = new Map();
+    usersTrack = new Map();
 
     visitProgram(ctx) {
         let tasks = [];
         let projects = [];
         for (let task of ctx.task()) {
             task = task.accept(this);
-
-            tasks.add(task);
+            tasks.push(task);
             this.tasksTrack.set(task.getVarname(), task);
         }
         for (let project of ctx.project()) {
             project = project.accept(this);
 
-            projects.add(project);
+            projects.push(project);
             this.projectsTrack.set(project.getVarname(), project);
         }
 
@@ -25,7 +27,7 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
     }
 
     visitTask(ctx) {
-        let varname = ctx.varname().TEXT();
+        let varname = ctx.varname().TEXT().getText();
 
         if (ctx.QUOTED_TEXT() != null) {
             // check getText() appropriate method
@@ -60,10 +62,15 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
                     let array = property.setDeps().array();
                     task.setDeps(this.visitArray(array, 'task'));
                 }
-            }
-        }
 
-        return super.visitTask(ctx);
+                if (property.setUsers() != null) {
+                    let array = property.setUsers().array();
+                    task.setUsers(this.visitArray(array, 'user'));
+                }
+            }
+
+            return task;
+        }
     }
 
     visitArray(ctx, type) {
@@ -71,13 +78,14 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
         for (let item of ctx.TEXT()) {
             let object;
             if (type === 'task') {
-                object = this.tasksTrack.get(item);
+                object = this.tasksTrack.get(item.getText());
             } else if (type === 'project') {
-                object = this.projectsTrack.get(item);
+                object = this.projectsTrack.get(item.getText());
             } else {
+                object = this.usersTrack.get(item.getText());
             }
             if (object == null) {
-                // TODO: return an error
+                // TODO: return an error (matching object not found)
             }
             array.push(item);
         }

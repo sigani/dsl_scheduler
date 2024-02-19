@@ -35,10 +35,7 @@ CLOSE_PAREN: ')';
 SPACE : [\r\n\t ]+ -> channel(HIDDEN);
 NEWLINE : [\r\n]+;
 
-
-
-
-
+// TODO: comment out for now
 //TASK_PROJ: ('task' | 'project' ) WS*;
 //TASK_PROJ_FIELDS: (('name' | 'description' | 'deadline' | 'status') WS*  COLON  WS* QUOTED_TEXT WS* (','WS*)? WS*)
 //            |
