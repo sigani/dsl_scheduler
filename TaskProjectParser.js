@@ -2,6 +2,8 @@
 // jshint ignore: start
 import antlr4 from 'antlr4';
 import TaskProjectParserListener from './TaskProjectParserListener.js';
+import TaskProjectParserVisitor from './TaskProjectParserVisitor.js';
+
 const serializedATN = [4,1,30,330,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,
 4,2,5,7,5,2,6,7,6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,1,0,1,0,1,0,1,0,1,0,
 1,0,1,0,1,0,1,0,5,0,32,8,0,10,0,12,0,35,9,0,1,0,1,0,1,1,1,1,5,1,41,8,1,10,
@@ -1203,6 +1205,14 @@ class ProgramContext extends antlr4.ParserRuleContext {
 		}
 	}
 
+	accept(visitor) {
+	    if ( visitor instanceof TaskProjectParserVisitor ) {
+	        return visitor.visitProgram(this);
+	    } else {
+	        return visitor.visitChildren(this);
+	    }
+	}
+
 
 }
 
@@ -1342,6 +1352,14 @@ class TaskProjectContext extends antlr4.ParserRuleContext {
 		}
 	}
 
+	accept(visitor) {
+	    if ( visitor instanceof TaskProjectParserVisitor ) {
+	        return visitor.visitTaskProject(this);
+	    } else {
+	        return visitor.visitChildren(this);
+	    }
+	}
+
 
 }
 
@@ -1463,6 +1481,14 @@ class User_declContext extends antlr4.ParserRuleContext {
 	    if(listener instanceof TaskProjectParserListener ) {
 	        listener.exitUser_decl(this);
 		}
+	}
+
+	accept(visitor) {
+	    if ( visitor instanceof TaskProjectParserVisitor ) {
+	        return visitor.visitUser_decl(this);
+	    } else {
+	        return visitor.visitChildren(this);
+	    }
 	}
 
 
@@ -1600,6 +1626,14 @@ class Set_declContext extends antlr4.ParserRuleContext {
 		}
 	}
 
+	accept(visitor) {
+	    if ( visitor instanceof TaskProjectParserVisitor ) {
+	        return visitor.visitSet_decl(this);
+	    } else {
+	        return visitor.visitChildren(this);
+	    }
+	}
+
 
 }
 
@@ -1687,6 +1721,14 @@ class Set_depsContext extends antlr4.ParserRuleContext {
 		}
 	}
 
+	accept(visitor) {
+	    if ( visitor instanceof TaskProjectParserVisitor ) {
+	        return visitor.visitSet_deps(this);
+	    } else {
+	        return visitor.visitChildren(this);
+	    }
+	}
+
 
 }
 
@@ -1755,6 +1797,14 @@ class Func_declContext extends antlr4.ParserRuleContext {
 	    if(listener instanceof TaskProjectParserListener ) {
 	        listener.exitFunc_decl(this);
 		}
+	}
+
+	accept(visitor) {
+	    if ( visitor instanceof TaskProjectParserVisitor ) {
+	        return visitor.visitFunc_decl(this);
+	    } else {
+	        return visitor.visitChildren(this);
+	    }
 	}
 
 
@@ -1828,6 +1878,14 @@ class Func_fieldsContext extends antlr4.ParserRuleContext {
 		}
 	}
 
+	accept(visitor) {
+	    if ( visitor instanceof TaskProjectParserVisitor ) {
+	        return visitor.visitFunc_fields(this);
+	    } else {
+	        return visitor.visitChildren(this);
+	    }
+	}
+
 
 }
 
@@ -1894,6 +1952,14 @@ class ConditionContext extends antlr4.ParserRuleContext {
 		}
 	}
 
+	accept(visitor) {
+	    if ( visitor instanceof TaskProjectParserVisitor ) {
+	        return visitor.visitCondition(this);
+	    } else {
+	        return visitor.visitChildren(this);
+	    }
+	}
+
 
 }
 
@@ -1931,6 +1997,14 @@ class StatementContext extends antlr4.ParserRuleContext {
 	    if(listener instanceof TaskProjectParserListener ) {
 	        listener.exitStatement(this);
 		}
+	}
+
+	accept(visitor) {
+	    if ( visitor instanceof TaskProjectParserVisitor ) {
+	        return visitor.visitStatement(this);
+	    } else {
+	        return visitor.visitChildren(this);
+	    }
 	}
 
 
@@ -1996,6 +2070,14 @@ class Var_setContext extends antlr4.ParserRuleContext {
 		}
 	}
 
+	accept(visitor) {
+	    if ( visitor instanceof TaskProjectParserVisitor ) {
+	        return visitor.visitVar_set(this);
+	    } else {
+	        return visitor.visitChildren(this);
+	    }
+	}
+
 
 }
 
@@ -2033,6 +2115,14 @@ class Func_invkContext extends antlr4.ParserRuleContext {
 	    if(listener instanceof TaskProjectParserListener ) {
 	        listener.exitFunc_invk(this);
 		}
+	}
+
+	accept(visitor) {
+	    if ( visitor instanceof TaskProjectParserVisitor ) {
+	        return visitor.visitFunc_invk(this);
+	    } else {
+	        return visitor.visitChildren(this);
+	    }
 	}
 
 
