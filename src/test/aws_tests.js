@@ -2,10 +2,12 @@ import DynamoDBEventBridgeManager from "../ui/DynamoDBEventBridgeManager.js";
 import Task from "../ast/Task.js";
 import Project from "../ast/Project.js";
 import Program from "../ast/Program.js";
+import { expect } from "chai";
 
 describe("AWS", function () {
   describe("DynamoDB", function () {
-    it("should insert a table into the db", function () {
+    it("should insert a table into the db", async function () {
+      this.timeout(30000); // 30 seconds (aws is sooo slow)
       // Create Task objects
       let task1 = new Task(
         "",
@@ -44,7 +46,29 @@ describe("AWS", function () {
       // Create Program object
       let program = new Program(tasks, projects);
       let manager = new DynamoDBEventBridgeManager();
-      manager.createTable(program);
+      await manager.createTable(program);
+    });
+
+    it("should fetch a table from the db", async function () {
+      this.timeout(30000); // 30 seconds (aws is sooo slow)
+      let results;
+      let manager = new DynamoDBEventBridgeManager();
+      results = await manager.fetchTable("test-table");
+      console.log(results);
+      expect(results).to.not.be.null;
+    });
+
+    it("should fetch empty object", async function () {
+      this.timeout(30000); // 30 seconds (aws is sooo slow)
+      let results;
+      let manager = new DynamoDBEventBridgeManager();
+      try {
+        results = await manager.fetchTable("HAVGJBKDASKWJSHDB");
+        fail();
+      } catch (err) {
+        console.log(err);
+        expect(err).to.not.be.null;
+      }
     });
   });
 });
