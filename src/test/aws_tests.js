@@ -46,13 +46,5 @@ describe("AWS", function () {
       let manager = new DynamoDBEventBridgeManager();
       manager.createTable(program);
     });
-
-    // it("should parse user declaration", function () {
-    //   const input =
-    //     'user user23 { name: "John Doe", email: "john.doe@example.com", tasks: {task1:task2, task3:task4}, projects: {project1:project2} };';
-    //   const chars = new antlr4.InputStream(input);
-    //   const lexer = new TaskProjectLexer(chars);
-    //   const tokens = new antlr4.CommonTokenStream(lexer);
-    // });
   });
 });
