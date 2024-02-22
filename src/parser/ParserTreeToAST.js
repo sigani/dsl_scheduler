@@ -2,10 +2,13 @@ import TaskProjectParserVisitor from "./TaskProjectParserVisitor.js";
 import Program from "../ast/Program.js";
 import Task from "../ast/Task.js";
 import Project from "../ast/Project.js";
+import User from "../ast/User.js";
 
 export default class ParserTreeToAST extends TaskProjectParserVisitor{
     // TODO: error handling (like variable not declared)
     // TODO: decide declaring same varname but different type is allowed (currently this is allowed)
+    // TODO: arrow syntax in Project delaration
+    // TODO: callbacks property in task
     // TODO: order of statement does not matter currently (e.g. task declaration executes first); do visitChildren inside visitProgram
     tasksTrack = new Map();
     projectsTrack = new Map();
@@ -14,6 +17,7 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
     visitProgram(ctx) {
         let tasks = [];
         let projects = [];
+        let users = [];
         for (let task of ctx.task()) {
             task = task.accept(this);
             tasks.push(task);
@@ -25,8 +29,13 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
             projects.push(project);
             this.projectsTrack.set(project.getVarname(), project);
         }
+        for (let user of ctx.user()) {
+            user = user.accept(this);
+            users.push(user);
+            this.usersTrack.set(user.getVarname(), user);
+        }
 
-        return new Program(tasks, projects);
+        return new Program(tasks, projects, users);
     }
 
     visitTask(ctx) {
@@ -72,6 +81,58 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
 
             return project;
         }
+    }
+
+    visitUser(ctx) {
+        let varname = ctx.varname().TEXT().getText();
+        if (this.usersTrack.has(varname)) {
+            throw new Error("User with the variable name " + varname + " already exist.");
+        }
+
+        if (ctx.QUOTED_TEXT() != null) {
+            // check getText() appropriate method
+            let name = ctx.QUOTED_TEXT().getText();
+            return new User(varname, name, null, null, null, null);
+        } else {
+            let user = new User(varname, null, null, null, null, null);
+            let userBody = ctx.userBody();
+            for (let property of userBody.userProperty()) {
+                if (property.setName() != null) {
+                    user.setName(this.removeQuotes(property.setName().QUOTED_TEXT().getText()));
+                }
+
+                if (property.setEmail() != null) {
+                    user.setEmail(this.removeQuotes(property.setEmail().QUOTED_TEXT().getText()));
+                }
+
+                if (property.setTasks() != null) {
+                    let array = property.setTasks().array();
+                    user.setTasks(this.visitArray(array, 'task'));
+                }
+
+                if (property.setProjects() != null) {
+                    let array = property.setProjects().array();
+                    user.setProjects(this.visitArray(array, 'project'));
+                }
+
+                if (property.setAdditional() != null) {
+                    let additionals = property.setAdditional();
+                    user.setAdditional(additionals.accept(this));
+                }
+            }
+
+            return user;
+        }
+    }
+
+    visitSetAdditional(ctx) {
+        let ret = new Map();
+        for (let additional of ctx.additional()) {
+            let key = additional.additionalKey().QUOTED_TEXT().getText();
+            let value = additional.additionalValue().QUOTED_TEXT().getText();
+            ret.set(this.removeQuotes(key), this.removeQuotes(value));
+        }
+        return ret;
     }
 
     visitArray(ctx, type) {

@@ -68,6 +68,33 @@ export default class TaskProjectParserListener extends antlr4.tree.ParseTreeList
 	}
 
 
+	// Enter a parse tree produced by TaskProjectParser#user.
+	enterUser(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#user.
+	exitUser(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#userBody.
+	enterUserBody(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#userBody.
+	exitUserBody(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#userProperty.
+	enterUserProperty(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#userProperty.
+	exitUserProperty(ctx) {
+	}
+
+
 	// Enter a parse tree produced by TaskProjectParser#setName.
 	enterSetName(ctx) {
 	}
@@ -113,6 +140,15 @@ export default class TaskProjectParserListener extends antlr4.tree.ParseTreeList
 	}
 
 
+	// Enter a parse tree produced by TaskProjectParser#setEmail.
+	enterSetEmail(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setEmail.
+	exitSetEmail(ctx) {
+	}
+
+
 	// Enter a parse tree produced by TaskProjectParser#setDeps.
 	enterSetDeps(ctx) {
 	}
@@ -140,12 +176,57 @@ export default class TaskProjectParserListener extends antlr4.tree.ParseTreeList
 	}
 
 
+	// Enter a parse tree produced by TaskProjectParser#setProjects.
+	enterSetProjects(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setProjects.
+	exitSetProjects(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#setAdditional.
+	enterSetAdditional(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setAdditional.
+	exitSetAdditional(ctx) {
+	}
+
+
 	// Enter a parse tree produced by TaskProjectParser#array.
 	enterArray(ctx) {
 	}
 
 	// Exit a parse tree produced by TaskProjectParser#array.
 	exitArray(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#additional.
+	enterAdditional(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#additional.
+	exitAdditional(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#additionalKey.
+	enterAdditionalKey(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#additionalKey.
+	exitAdditionalKey(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#additionalValue.
+	enterAdditionalValue(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#additionalValue.
+	exitAdditionalValue(ctx) {
 	}
 
 

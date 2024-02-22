@@ -48,6 +48,24 @@ export default class TaskProjectParserVisitor extends antlr4.tree.ParseTreeVisit
 	}
 
 
+	// Visit a parse tree produced by TaskProjectParser#user.
+	visitUser(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#userBody.
+	visitUserBody(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#userProperty.
+	visitUserProperty(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
 	// Visit a parse tree produced by TaskProjectParser#setName.
 	visitSetName(ctx) {
 	  return this.visitChildren(ctx);
@@ -78,6 +96,12 @@ export default class TaskProjectParserVisitor extends antlr4.tree.ParseTreeVisit
 	}
 
 
+	// Visit a parse tree produced by TaskProjectParser#setEmail.
+	visitSetEmail(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
 	// Visit a parse tree produced by TaskProjectParser#setDeps.
 	visitSetDeps(ctx) {
 	  return this.visitChildren(ctx);
@@ -96,8 +120,38 @@ export default class TaskProjectParserVisitor extends antlr4.tree.ParseTreeVisit
 	}
 
 
+	// Visit a parse tree produced by TaskProjectParser#setProjects.
+	visitSetProjects(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#setAdditional.
+	visitSetAdditional(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
 	// Visit a parse tree produced by TaskProjectParser#array.
 	visitArray(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#additional.
+	visitAdditional(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#additionalKey.
+	visitAdditionalKey(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#additionalValue.
+	visitAdditionalValue(ctx) {
 	  return this.visitChildren(ctx);
 	}
 

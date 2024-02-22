@@ -8,7 +8,7 @@ import ParserTreeToAST from "./parser/ParserTreeToAST.js";
 
 
 const input =
-    "task task1 {\n" +
+    "task   task1   {  \n" +
     "  name: \"Task 1\",\n" +
     "  description: \"This is a sample task\",\n" +
     "  deadline: \"2024-02-20\",\n" +
@@ -22,7 +22,13 @@ const input =
     "  deadline: \"2024-02-20\",\n" +
     "  tasks: {task1},\n" +
     "}\;\n" +
-    "project project2 {task1, task2}\;\n";
+    "project project2 {  task1, task2 }\;\n" +
+    "user yuhei {\n" +
+    "  name: \"Yuhei Arimoto\",\n" +
+    "  email: \"yuhei61627@icloud.com\",\n" +
+    "  tasks: {task2, task1},\n" +
+    "  additional: {\"test\"  :   \"test\"   , \"TTE\" :\"TESD\"},\n" +
+    "}\;\n";
 
 // const input =
 //     "task task1 {\n" +
@@ -40,7 +46,12 @@ const input =
 //     "  status: \"In Progress\",\n" +
 //     "  priority: 1,\n" +
 //     "  deps: {task2, task1},\n" +
-//     "}\;\n";
+//     "}\;\n" +
+//     "user yuhei {\n" +
+//     "  name: \"Yuhei Arimoto\",\n" +
+//     "  email: \"yuhei61627@icloud.com\",\n" +
+//     "  tasks: {task2, task1},\n" +
+//     "}\;\n" ;
 
 const chars = new antlr4.InputStream(input);
 const lexer = new TaskProjectLexer(chars);
@@ -50,4 +61,5 @@ const visitor = new ParserTreeToAST();
 
 const program = parser.program().accept(visitor);
 
-console.log(program.getProjects()[1].getTasks());
+console.log(input);
+console.log(program);

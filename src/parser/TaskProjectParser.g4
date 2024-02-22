@@ -2,7 +2,7 @@ parser grammar TaskProjectParser;
 
 options { tokenVocab=TaskProjectLexer; }
 
-program: (task | project)* EOF;
+program: (task | project | user)* EOF;
 
 task: TASK_DEF varname (QUOTED_TEXT | taskBody) SEMICOLON;
 taskBody: OPEN_BRACES (taskProperty COMMA)* ((taskProperty COMMA) | taskProperty) CLOSE_BRACES;
@@ -12,16 +12,27 @@ project: PROJECT_DEF varname (QUOTED_TEXT | projectBody | array) SEMICOLON;
 projectBody: OPEN_BRACES (projectProperty COMMA)* ((projectProperty COMMA) | projectProperty) CLOSE_BRACES;
 projectProperty: setName | setDescription | setDeadline | setStatus | setPriority | setDeps | setUsers | setTasks;
 
+user: USER_DEF varname (QUOTED_TEXT | userBody) SEMICOLON;
+userBody: OPEN_BRACES (userProperty COMMA)* ((userProperty COMMA) | userProperty) CLOSE_BRACES;
+userProperty: setName | setEmail | setTasks | setProjects | setAdditional;
+
 setName: NAME QUOTED_TEXT;
 setDescription: DESCRIPTION QUOTED_TEXT;
 setDeadline: DEADLINE QUOTED_TEXT;
 setStatus: STATUS QUOTED_TEXT;
 setPriority: PRIORITY NUM;
+setEmail: EMAIL QUOTED_TEXT;
 setDeps: DEPS array;
 setUsers: USERS array;
 setTasks: TASKS array;
+setProjects: PROJECTS array;
+setAdditional: ADDITIONAL OPEN_BRACES (additional COMMA)* ((additional COMMA) | additional) CLOSE_BRACES;
 
 array: OPEN_BRACES (TEXT COMMA)* ((TEXT COMMA) | TEXT) CLOSE_BRACES;
+
+additional: additionalKey COLON additionalValue;
+additionalKey: QUOTED_TEXT;
+additionalValue: QUOTED_TEXT;
 
 varname: TEXT;
 

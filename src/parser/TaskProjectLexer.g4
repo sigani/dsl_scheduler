@@ -17,7 +17,7 @@ USERS: 'users:' SPACE*;
 EMAIL: 'email:' SPACE*;
 TASKS: 'tasks:' SPACE*;
 PROJECTS: 'projects:' SPACE*;
-//ADDITIONAL: 'additional:' SPACE*;
+ADDITIONAL: 'additional:' SPACE*;
 
 
 TEXT: [a-zA-Z][a-zA-Z0-9]*;
