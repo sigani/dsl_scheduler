@@ -8,7 +8,7 @@ task: TASK_DEF varname (QUOTED_TEXT | taskBody) SEMICOLON;
 taskBody: OPEN_BRACES (taskProperty COMMA)* ((taskProperty COMMA) | taskProperty) CLOSE_BRACES;
 taskProperty: setName | setDescription | setDeadline | setStatus | setPriority | setDeps | setUsers;
 
-project: PROJECT_DEF varname (QUOTED_TEXT | projectBody) SEMICOLON;
+project: PROJECT_DEF varname (QUOTED_TEXT | projectBody | array) SEMICOLON;
 projectBody: OPEN_BRACES (projectProperty COMMA)* ((projectProperty COMMA) | projectProperty) CLOSE_BRACES;
 projectProperty: setName | setDescription | setDeadline | setStatus | setPriority | setDeps | setUsers | setTasks;
 
@@ -27,18 +27,34 @@ varname: TEXT;
 
 
 // TODO: comment out for now
-//program: (taskProject | user_decl | set_decl | func_decl | func_invk | var_set )* EOF;
+//program: (taskProject | user_decl
+//        | set_decl | set_deps | func_decl
+//        | func_invk | COND SC | var_set )* EOF;
 //taskProject:
-//        TASK_PROJ TEXT* WS* (OB WS* TASK_PROJ_FIELDS* WS* CB)+ SC;
+//        TASK_PROJ TEXT* WS*
+//        (((OB WS* (TASK_PROJ_FIELDS | NAME_FIELD | TASK_FIELD)*
+//        WS* CB)+)?
+//        | (QUOTED_TEXT WS*)
+//        | OB WS* TEXT WS* (COMMA WS* TEXT)* CB)
 //
+//        SC;
 //user_decl:
-//        USER TEXT* WS* (OB USER_FIELDS* CB)+ SC;
+//        USER TEXT* WS*
+//        ((OB WS* (USER_FIELDS| NAME_FIELD | TASK_FIELD)* WS* CB)+)? SC;
 //
 //set_decl:
-//        SET TEXT* WS* OB SET_FIELDS* CB SC;
+//        SET TEXT* WS*
+//        (OB WS* (USER_FIELDS| NAME_FIELD | TASK_FIELD | TASK_PROJ_FIELDS)*
+//        WS* CB)+ SC;
+//
+//set_deps:
+//        SET DEPS WS*
+//        OB WS* (SET_DEPS WS* COMMA? WS*)*
+//        WS* CB SC;
 //
 //func_decl:
-//        FUNC OB func_fields* CB SC;
+//        FUNC WS* OB func_fields* CB SC;
+//
 //
 //// what can exist inside a function declaration is
 //// conditionals/loops (should be same thing)
@@ -49,12 +65,19 @@ varname: TEXT;
 //        taskProject
 //        | user_decl
 //        | set_decl
-//        | func_invk
+//        | CONDITIONALS SC WS*
 //        | var_set
-//        | COND;
+//        | condition;
+//
+//condition:
+//        COND WS* OB statement* WS* CB;
+//
+//statement:
+//        condition
+//        | func_fields;
 //
 //var_set:
 //        TEXT* WS* EQ WS* TEXT* SC;
 //
 //func_invk:
-//        TEXT* ORB TEXT* WS* (COMMA WS* TEXT* )* CRB SC;
+//        CONDITIONALS SC;

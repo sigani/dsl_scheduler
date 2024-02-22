@@ -1,9 +1,12 @@
 import TaskProjectParserVisitor from "./TaskProjectParserVisitor.js";
 import Program from "../ast/Program.js";
 import Task from "../ast/Task.js";
+import Project from "../ast/Project.js";
 
 export default class ParserTreeToAST extends TaskProjectParserVisitor{
-    // TODO: error hundling (like variable not declared)
+    // TODO: error handling (like variable not declared)
+    // TODO: decide declaring same varname but different type is allowed (currently this is allowed)
+    // TODO: order of statement does not matter currently (e.g. task declaration executes first); do visitChildren inside visitProgram
     tasksTrack = new Map();
     projectsTrack = new Map();
     usersTrack = new Map();
@@ -28,48 +31,46 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
 
     visitTask(ctx) {
         let varname = ctx.varname().TEXT().getText();
-
+        if (this.tasksTrack.has(varname)) {
+            throw new Error("Task with the variable name " + varname + " already exist.");
+        }
         if (ctx.QUOTED_TEXT() != null) {
             // check getText() appropriate method
             let name = ctx.QUOTED_TEXT().getText();
             return new Task(varname, this.removeQuotes(name), null, null, null, null, null, null);
         } else {
-
             let task = new Task(varname, null, null, null, null, null, null, null);
             let taskBody = ctx.taskBody();
             for (let property of taskBody.taskProperty()) {
-                if (property.setName() != null) {
-                    task.setName(this.removeQuotes(property.setName().QUOTED_TEXT().getText()));
-                }
-
-                if (property.setDescription() != null) {
-                    task.setDescription(this.removeQuotes(property.setDescription().QUOTED_TEXT().getText()));
-                }
-
-                if (property.setDeadline() != null) {
-                    task.setDeadline(this.removeQuotes(property.setDeadline().QUOTED_TEXT().getText()));
-                }
-
-                if (property.setStatus() != null) {
-                    task.setStatus(this.removeQuotes(property.setStatus().QUOTED_TEXT().getText()));
-                }
-
-                if (property.setPriority() != null) {
-                    task.setPriority(+(property.setPriority().NUM().getText()));
-                }
-
-                if (property.setDeps() != null) {
-                    let array = property.setDeps().array();
-                    task.setDeps(this.visitArray(array, 'task'));
-                }
-
-                if (property.setUsers() != null) {
-                    let array = property.setUsers().array();
-                    task.setUsers(this.visitArray(array, 'user'));
-                }
+                this.setProperty(task, property);
             }
 
             return task;
+        }
+    }
+
+    visitProject(ctx) {
+        let varname = ctx.varname().TEXT().getText();
+        if (this.projectsTrack.has(varname)) {
+            throw new Error("Project with the variable name " + varname + " already exist.");
+        }
+
+        if (ctx.QUOTED_TEXT() != null) {
+            // check getText() appropriate method
+            let name = ctx.QUOTED_TEXT().getText();
+            return new Project(varname, this.removeQuotes(name), null, null, null, null, null, null, null);
+        } else if (ctx.array() != null) {
+            let project = new Project(varname, null, null, null, null, null, null, null, null);
+            project.setTasks(this.visitArray(ctx.array(), 'task'));
+            return project;
+        } else {
+            let project = new Project(varname, null, null, null, null, null, null, null, null);
+            let projectBody = ctx.projectBody();
+            for (let property of projectBody.projectProperty()) {
+                this.setProperty(project, property);
+            }
+
+            return project;
         }
     }
 
@@ -85,11 +86,52 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
                 object = this.usersTrack.get(item.getText());
             }
             if (object == null) {
-                // TODO: return an error (matching object not found)
+                throw new Error(type + " with varname " + item + " does not exist.")
             }
-            array.push(item);
+            array.push(object);
         }
         return array;
+    }
+
+    setProperty(object, property) {
+        if (property.setName() != null) {
+            object.setName(this.removeQuotes(property.setName().QUOTED_TEXT().getText()));
+        }
+
+        if (property.setDescription() != null) {
+            object.setDescription(this.removeQuotes(property.setDescription().QUOTED_TEXT().getText()));
+        }
+
+        if (property.setDeadline() != null) {
+            object.setDeadline(this.removeQuotes(property.setDeadline().QUOTED_TEXT().getText()));
+        }
+
+        if (property.setStatus() != null) {
+            object.setStatus(this.removeQuotes(property.setStatus().QUOTED_TEXT().getText()));
+        }
+
+        if (property.setPriority() != null) {
+            object.setPriority(+(property.setPriority().NUM().getText()));
+        }
+
+        if (property.setDeps() != null) {
+            let array = property.setDeps().array();
+            if (object instanceof Project) {
+                object.setDeps(this.visitArray(array, 'project'));
+            } else {
+                object.setDeps(this.visitArray(array, 'task'));
+            }
+        }
+
+        if (property.setUsers() != null) {
+            let array = property.setUsers().array();
+            object.setUsers(this.visitArray(array, 'user'));
+        }
+
+        if (object instanceof Project && property.setTasks() != null) {
+            let array = property.setTasks().array();
+            object.setTasks(this.visitArray(array, 'task'))
+        }
     }
 
     removeQuotes(str){
