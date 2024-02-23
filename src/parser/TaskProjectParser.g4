@@ -16,7 +16,7 @@ user: USER_DEF varname (QUOTED_TEXT | userBody) SEMICOLON;
 userBody: OPEN_BRACES (userProperty COMMA)* ((userProperty COMMA) | userProperty) CLOSE_BRACES;
 userProperty: setName | setEmail | setTasks | setProjects | setAdditional;
 
-set: SET varname OPEN_BRACES (setProperty COMMA)* ((setProperty COMMA) | setProperty) CLOSE_BRACES;
+set: SET varname OPEN_BRACES (setProperty COMMA)* ((setProperty COMMA) | setProperty) CLOSE_BRACES SEMICOLON;
 setProperty: setName | setDescription | setDeadline | setStatus | setPriority | setEmail | setDeps | setUsers |
                 setTasks | setProjects | setAdditional;
 

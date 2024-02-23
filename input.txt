@@ -5,3 +5,36 @@ task   task1   {
     status: "In Progress",
     priority: 2,
 };
+
+task task2 "Task 2";
+
+project project1 {
+    name: "Project 1",
+    description: "This is a sample project",
+    status: "In Progress",
+    tasks: {task1, task2}
+};
+
+user user1 "User 1";
+
+user user2 {
+    name: "Yuhei",
+    email: "yuhei61627@icloud.com",
+    tasks: {task1},
+};
+
+user user3 {
+    name: "Arimoto",
+    email: "yuhei61627@gmail.com",
+    tasks: {task2},
+    additional: {"test": "test", "TTE":"TESD"}
+};
+
+set user1 {
+    email: "test@gmail.com",
+    email: "test@icloud.com"
+};
+
+set task2 {
+    deps: {task1},
+};

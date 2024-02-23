@@ -44,9 +44,7 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
 
     visitTask(ctx) {
         let varname = ctx.varname().TEXT().getText();
-        if (this.tasksTrack.has(varname)) {
-            throw new Error("Task with the variable name " + varname + " already exist.");
-        }
+        this.checkDuplicateVarname(varname);
         if (ctx.QUOTED_TEXT() != null) {
             // check getText() appropriate method
             let name = ctx.QUOTED_TEXT().getText();
@@ -64,9 +62,7 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
 
     visitProject(ctx) {
         let varname = ctx.varname().TEXT().getText();
-        if (this.projectsTrack.has(varname)) {
-            throw new Error("Project with the variable name " + varname + " already exist.");
-        }
+        this.checkDuplicateVarname(varname);
 
         if (ctx.QUOTED_TEXT() != null) {
             // check getText() appropriate method
@@ -89,9 +85,7 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
 
     visitUser(ctx) {
         let varname = ctx.varname().TEXT().getText();
-        if (this.usersTrack.has(varname)) {
-            throw new Error("User with the variable name " + varname + " already exist.");
-        }
+        this.checkDuplicateVarname(varname);
 
         if (ctx.QUOTED_TEXT() != null) {
             // check getText() appropriate method
@@ -101,28 +95,7 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
             let user = new User(varname, null, null, null, null, null);
             let userBody = ctx.userBody();
             for (let property of userBody.userProperty()) {
-                if (property.setName() != null) {
-                    user.setName(this.removeQuotes(property.setName().QUOTED_TEXT().getText()));
-                }
-
-                if (property.setEmail() != null) {
-                    user.setEmail(this.removeQuotes(property.setEmail().QUOTED_TEXT().getText()));
-                }
-
-                if (property.setTasks() != null) {
-                    let array = property.setTasks().array();
-                    user.setTasks(this.visitArray(array, 'task'));
-                }
-
-                if (property.setProjects() != null) {
-                    let array = property.setProjects().array();
-                    user.setProjects(this.visitArray(array, 'project'));
-                }
-
-                if (property.setAdditional() != null) {
-                    let additionals = property.setAdditional();
-                    user.setAdditional(additionals.accept(this));
-                }
+                this.setProperty(user, property);
             }
 
             return user;
@@ -137,10 +110,8 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
         }
 
         for (let property of ctx.setProperty()) {
-
+            this.setProperty(object, property);
         }
-
-        return super.visitSet(ctx);
     }
 
     visitSetAdditional(ctx) {
@@ -173,27 +144,45 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
     }
 
     setProperty(object, property) {
-        if (property.setName() != null) {
+        if (property.setName && property.setName() != null) {
+            if (!object.setName) {
+                throw new Error("Name property does not exist for " + object.getVarname());
+            }
             object.setName(this.removeQuotes(property.setName().QUOTED_TEXT().getText()));
         }
 
-        if (property.setDescription() != null) {
+        if (property.setDescription && property.setDescription() != null) {
+            if (!object.setDescription) {
+                throw new Error("Description property does not exist for " + object.getVarname());
+            }
             object.setDescription(this.removeQuotes(property.setDescription().QUOTED_TEXT().getText()));
         }
 
-        if (property.setDeadline() != null) {
+        if (property.setDeadline && property.setDeadline() != null) {
+            if (!object.setDeadline) {
+                throw new Error("Deadline property does not exist for " + object.getVarname());
+            }
             object.setDeadline(this.removeQuotes(property.setDeadline().QUOTED_TEXT().getText()));
         }
 
-        if (property.setStatus() != null) {
+        if (property.setStatus && property.setStatus() != null) {
+            if (!object.setStatus) {
+                throw new Error("Status property does not exist for " + object.getVarname());
+            }
             object.setStatus(this.removeQuotes(property.setStatus().QUOTED_TEXT().getText()));
         }
 
-        if (property.setPriority() != null) {
+        if (property.setPriority && property.setPriority() != null) {
+            if (!object.setPriority) {
+                throw new Error("Priority property does not exist for " + object.getVarname());
+            }
             object.setPriority(+(property.setPriority().NUM().getText()));
         }
 
-        if (property.setDeps() != null) {
+        if (property.setDeps && property.setDeps() != null) {
+            if (!object.setDeps) {
+                throw new Error("Deps property does not exist for " + object.getVarname());
+            }
             let array = property.setDeps().array();
             if (object instanceof Project) {
                 object.setDeps(this.visitArray(array, 'project'));
@@ -202,14 +191,49 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
             }
         }
 
-        if (property.setUsers() != null) {
+        if (property.setUsers && property.setUsers() != null) {
+            if (!object.setUsers) {
+                throw new Error("Users property does not exist for " + object.getVarname());
+            }
             let array = property.setUsers().array();
             object.setUsers(this.visitArray(array, 'user'));
         }
 
-        if (object instanceof Project && property.setTasks() != null) {
+        if (property.setTasks && property.setTasks() != null) {
+            if (!object.setTasks) {
+                throw new Error("Tasks property does not exist for " + object.getVarname());
+            }
             let array = property.setTasks().array();
-            object.setTasks(this.visitArray(array, 'task'))
+            object.setTasks(this.visitArray(array, 'task'));
+        }
+
+        if (property.setEmail && property.setEmail() != null) {
+            if (!object.setEmail) {
+                throw new Error("Email property does not exist for " + object.getVarname());
+            }
+            object.setEmail(this.removeQuotes(property.setEmail().QUOTED_TEXT().getText()));
+        }
+
+        if (property.setProjects && property.setProjects() != null) {
+            if (!object.setProjects) {
+                throw new Error("Projects property does not exist for " + object.getVarname());
+            }
+            let array = property.setProjects().array();
+            object.setProjects(this.visitArray(array, 'project'));
+        }
+
+        if (property.setAdditional && property.setAdditional() != null) {
+            if (!object.setAdditional) {
+                throw new Error("Additional property does not exist for " + object.getVarname());
+            }
+            let additionals = property.setAdditional();
+            object.setAdditional(additionals.accept(this));
+        }
+    }
+
+    checkDuplicateVarname(varname) {
+        if (this.tasksTrack.has(varname) || this.projectsTrack.has(varname) || this.usersTrack.has(varname)) {
+            throw new Error("Variable with name " + varname + " already exist.");
         }
     }
 

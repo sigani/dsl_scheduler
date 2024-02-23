@@ -4,7 +4,7 @@ import antlr4 from 'antlr4';
 import TaskProjectParserListener from './TaskProjectParserListener.js';
 import TaskProjectParserVisitor from './TaskProjectParserVisitor.js';
 
-const serializedATN = [4,1,29,275,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,
+const serializedATN = [4,1,29,276,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,
 4,2,5,7,5,2,6,7,6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,
 2,13,7,13,2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,
 20,7,20,2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,2,27,
@@ -16,29 +16,29 @@ const serializedATN = [4,1,29,275,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,
 3,6,136,8,6,1,7,1,7,1,7,1,7,3,7,142,8,7,1,7,1,7,1,8,1,8,1,8,1,8,5,8,150,
 8,8,10,8,12,8,153,9,8,1,8,1,8,1,8,1,8,3,8,159,8,8,1,8,1,8,1,9,1,9,1,9,1,
 9,1,9,3,9,168,8,9,1,10,1,10,1,10,1,10,1,10,1,10,5,10,176,8,10,10,10,12,10,
-179,9,10,1,10,1,10,1,10,1,10,3,10,185,8,10,1,10,1,10,1,11,1,11,1,11,1,11,
-1,11,1,11,1,11,1,11,1,11,1,11,1,11,3,11,200,8,11,1,12,1,12,1,12,1,13,1,13,
-1,13,1,14,1,14,1,14,1,15,1,15,1,15,1,16,1,16,1,16,1,17,1,17,1,17,1,18,1,
-18,1,18,1,19,1,19,1,19,1,20,1,20,1,20,1,21,1,21,1,21,1,22,1,22,1,22,1,22,
-1,22,5,22,237,8,22,10,22,12,22,240,9,22,1,22,1,22,1,22,1,22,3,22,246,8,22,
-1,22,1,22,1,23,1,23,1,23,5,23,253,8,23,10,23,12,23,256,9,23,1,23,1,23,1,
-23,3,23,261,8,23,1,23,1,23,1,24,1,24,1,24,1,24,1,25,1,25,1,26,1,26,1,27,
-1,27,1,27,0,0,28,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,
-40,42,44,46,48,50,52,54,0,0,293,0,62,1,0,0,0,2,67,1,0,0,0,4,75,1,0,0,0,6,
-99,1,0,0,0,8,101,1,0,0,0,10,110,1,0,0,0,12,135,1,0,0,0,14,137,1,0,0,0,16,
-145,1,0,0,0,18,167,1,0,0,0,20,169,1,0,0,0,22,199,1,0,0,0,24,201,1,0,0,0,
-26,204,1,0,0,0,28,207,1,0,0,0,30,210,1,0,0,0,32,213,1,0,0,0,34,216,1,0,0,
-0,36,219,1,0,0,0,38,222,1,0,0,0,40,225,1,0,0,0,42,228,1,0,0,0,44,231,1,0,
-0,0,46,249,1,0,0,0,48,264,1,0,0,0,50,268,1,0,0,0,52,270,1,0,0,0,54,272,1,
-0,0,0,56,61,3,2,1,0,57,61,3,8,4,0,58,61,3,14,7,0,59,61,3,20,10,0,60,56,1,
-0,0,0,60,57,1,0,0,0,60,58,1,0,0,0,60,59,1,0,0,0,61,64,1,0,0,0,62,60,1,0,
-0,0,62,63,1,0,0,0,63,65,1,0,0,0,64,62,1,0,0,0,65,66,5,0,0,1,66,1,1,0,0,0,
-67,68,5,2,0,0,68,71,3,54,27,0,69,72,5,19,0,0,70,72,3,4,2,0,71,69,1,0,0,0,
-71,70,1,0,0,0,72,73,1,0,0,0,73,74,5,22,0,0,74,3,1,0,0,0,75,81,5,24,0,0,76,
-77,3,6,3,0,77,78,5,23,0,0,78,80,1,0,0,0,79,76,1,0,0,0,80,83,1,0,0,0,81,79,
-1,0,0,0,81,82,1,0,0,0,82,88,1,0,0,0,83,81,1,0,0,0,84,85,3,6,3,0,85,86,5,
-23,0,0,86,89,1,0,0,0,87,89,3,6,3,0,88,84,1,0,0,0,88,87,1,0,0,0,89,90,1,0,
-0,0,90,91,5,25,0,0,91,5,1,0,0,0,92,100,3,24,12,0,93,100,3,26,13,0,94,100,
+179,9,10,1,10,1,10,1,10,1,10,3,10,185,8,10,1,10,1,10,1,10,1,11,1,11,1,11,
+1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,11,3,11,201,8,11,1,12,1,12,1,12,1,13,
+1,13,1,13,1,14,1,14,1,14,1,15,1,15,1,15,1,16,1,16,1,16,1,17,1,17,1,17,1,
+18,1,18,1,18,1,19,1,19,1,19,1,20,1,20,1,20,1,21,1,21,1,21,1,22,1,22,1,22,
+1,22,1,22,5,22,238,8,22,10,22,12,22,241,9,22,1,22,1,22,1,22,1,22,3,22,247,
+8,22,1,22,1,22,1,23,1,23,1,23,5,23,254,8,23,10,23,12,23,257,9,23,1,23,1,
+23,1,23,3,23,262,8,23,1,23,1,23,1,24,1,24,1,24,1,24,1,25,1,25,1,26,1,26,
+1,27,1,27,1,27,0,0,28,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,
+38,40,42,44,46,48,50,52,54,0,0,294,0,62,1,0,0,0,2,67,1,0,0,0,4,75,1,0,0,
+0,6,99,1,0,0,0,8,101,1,0,0,0,10,110,1,0,0,0,12,135,1,0,0,0,14,137,1,0,0,
+0,16,145,1,0,0,0,18,167,1,0,0,0,20,169,1,0,0,0,22,200,1,0,0,0,24,202,1,0,
+0,0,26,205,1,0,0,0,28,208,1,0,0,0,30,211,1,0,0,0,32,214,1,0,0,0,34,217,1,
+0,0,0,36,220,1,0,0,0,38,223,1,0,0,0,40,226,1,0,0,0,42,229,1,0,0,0,44,232,
+1,0,0,0,46,250,1,0,0,0,48,265,1,0,0,0,50,269,1,0,0,0,52,271,1,0,0,0,54,273,
+1,0,0,0,56,61,3,2,1,0,57,61,3,8,4,0,58,61,3,14,7,0,59,61,3,20,10,0,60,56,
+1,0,0,0,60,57,1,0,0,0,60,58,1,0,0,0,60,59,1,0,0,0,61,64,1,0,0,0,62,60,1,
+0,0,0,62,63,1,0,0,0,63,65,1,0,0,0,64,62,1,0,0,0,65,66,5,0,0,1,66,1,1,0,0,
+0,67,68,5,2,0,0,68,71,3,54,27,0,69,72,5,19,0,0,70,72,3,4,2,0,71,69,1,0,0,
+0,71,70,1,0,0,0,72,73,1,0,0,0,73,74,5,22,0,0,74,3,1,0,0,0,75,81,5,24,0,0,
+76,77,3,6,3,0,77,78,5,23,0,0,78,80,1,0,0,0,79,76,1,0,0,0,80,83,1,0,0,0,81,
+79,1,0,0,0,81,82,1,0,0,0,82,88,1,0,0,0,83,81,1,0,0,0,84,85,3,6,3,0,85,86,
+5,23,0,0,86,89,1,0,0,0,87,89,3,6,3,0,88,84,1,0,0,0,88,87,1,0,0,0,89,90,1,
+0,0,0,90,91,5,25,0,0,91,5,1,0,0,0,92,100,3,24,12,0,93,100,3,26,13,0,94,100,
 3,28,14,0,95,100,3,30,15,0,96,100,3,32,16,0,97,100,3,36,18,0,98,100,3,38,
 19,0,99,92,1,0,0,0,99,93,1,0,0,0,99,94,1,0,0,0,99,95,1,0,0,0,99,96,1,0,0,
 0,99,97,1,0,0,0,99,98,1,0,0,0,100,7,1,0,0,0,101,102,5,3,0,0,102,106,3,54,
@@ -65,31 +65,31 @@ const serializedATN = [4,1,29,275,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,
 173,174,5,23,0,0,174,176,1,0,0,0,175,172,1,0,0,0,176,179,1,0,0,0,177,175,
 1,0,0,0,177,178,1,0,0,0,178,184,1,0,0,0,179,177,1,0,0,0,180,181,3,22,11,
 0,181,182,5,23,0,0,182,185,1,0,0,0,183,185,3,22,11,0,184,180,1,0,0,0,184,
-183,1,0,0,0,185,186,1,0,0,0,186,187,5,25,0,0,187,21,1,0,0,0,188,200,3,24,
-12,0,189,200,3,26,13,0,190,200,3,28,14,0,191,200,3,30,15,0,192,200,3,32,
-16,0,193,200,3,34,17,0,194,200,3,36,18,0,195,200,3,38,19,0,196,200,3,40,
-20,0,197,200,3,42,21,0,198,200,3,44,22,0,199,188,1,0,0,0,199,189,1,0,0,0,
-199,190,1,0,0,0,199,191,1,0,0,0,199,192,1,0,0,0,199,193,1,0,0,0,199,194,
-1,0,0,0,199,195,1,0,0,0,199,196,1,0,0,0,199,197,1,0,0,0,199,198,1,0,0,0,
-200,23,1,0,0,0,201,202,5,5,0,0,202,203,5,19,0,0,203,25,1,0,0,0,204,205,5,
-6,0,0,205,206,5,19,0,0,206,27,1,0,0,0,207,208,5,7,0,0,208,209,5,19,0,0,209,
-29,1,0,0,0,210,211,5,8,0,0,211,212,5,19,0,0,212,31,1,0,0,0,213,214,5,9,0,
-0,214,215,5,20,0,0,215,33,1,0,0,0,216,217,5,12,0,0,217,218,5,19,0,0,218,
-35,1,0,0,0,219,220,5,10,0,0,220,221,3,46,23,0,221,37,1,0,0,0,222,223,5,11,
-0,0,223,224,3,46,23,0,224,39,1,0,0,0,225,226,5,13,0,0,226,227,3,46,23,0,
-227,41,1,0,0,0,228,229,5,14,0,0,229,230,3,46,23,0,230,43,1,0,0,0,231,232,
-5,15,0,0,232,238,5,24,0,0,233,234,3,48,24,0,234,235,5,23,0,0,235,237,1,0,
-0,0,236,233,1,0,0,0,237,240,1,0,0,0,238,236,1,0,0,0,238,239,1,0,0,0,239,
-245,1,0,0,0,240,238,1,0,0,0,241,242,3,48,24,0,242,243,5,23,0,0,243,246,1,
-0,0,0,244,246,3,48,24,0,245,241,1,0,0,0,245,244,1,0,0,0,246,247,1,0,0,0,
-247,248,5,25,0,0,248,45,1,0,0,0,249,254,5,24,0,0,250,251,5,18,0,0,251,253,
-5,23,0,0,252,250,1,0,0,0,253,256,1,0,0,0,254,252,1,0,0,0,254,255,1,0,0,0,
-255,260,1,0,0,0,256,254,1,0,0,0,257,258,5,18,0,0,258,261,5,23,0,0,259,261,
-5,18,0,0,260,257,1,0,0,0,260,259,1,0,0,0,261,262,1,0,0,0,262,263,5,25,0,
-0,263,47,1,0,0,0,264,265,3,50,25,0,265,266,5,21,0,0,266,267,3,52,26,0,267,
-49,1,0,0,0,268,269,5,19,0,0,269,51,1,0,0,0,270,271,5,19,0,0,271,53,1,0,0,
-0,272,273,5,18,0,0,273,55,1,0,0,0,21,60,62,71,81,88,99,106,116,123,135,141,
-151,158,167,177,184,199,238,245,254,260];
+183,1,0,0,0,185,186,1,0,0,0,186,187,5,25,0,0,187,188,5,22,0,0,188,21,1,0,
+0,0,189,201,3,24,12,0,190,201,3,26,13,0,191,201,3,28,14,0,192,201,3,30,15,
+0,193,201,3,32,16,0,194,201,3,34,17,0,195,201,3,36,18,0,196,201,3,38,19,
+0,197,201,3,40,20,0,198,201,3,42,21,0,199,201,3,44,22,0,200,189,1,0,0,0,
+200,190,1,0,0,0,200,191,1,0,0,0,200,192,1,0,0,0,200,193,1,0,0,0,200,194,
+1,0,0,0,200,195,1,0,0,0,200,196,1,0,0,0,200,197,1,0,0,0,200,198,1,0,0,0,
+200,199,1,0,0,0,201,23,1,0,0,0,202,203,5,5,0,0,203,204,5,19,0,0,204,25,1,
+0,0,0,205,206,5,6,0,0,206,207,5,19,0,0,207,27,1,0,0,0,208,209,5,7,0,0,209,
+210,5,19,0,0,210,29,1,0,0,0,211,212,5,8,0,0,212,213,5,19,0,0,213,31,1,0,
+0,0,214,215,5,9,0,0,215,216,5,20,0,0,216,33,1,0,0,0,217,218,5,12,0,0,218,
+219,5,19,0,0,219,35,1,0,0,0,220,221,5,10,0,0,221,222,3,46,23,0,222,37,1,
+0,0,0,223,224,5,11,0,0,224,225,3,46,23,0,225,39,1,0,0,0,226,227,5,13,0,0,
+227,228,3,46,23,0,228,41,1,0,0,0,229,230,5,14,0,0,230,231,3,46,23,0,231,
+43,1,0,0,0,232,233,5,15,0,0,233,239,5,24,0,0,234,235,3,48,24,0,235,236,5,
+23,0,0,236,238,1,0,0,0,237,234,1,0,0,0,238,241,1,0,0,0,239,237,1,0,0,0,239,
+240,1,0,0,0,240,246,1,0,0,0,241,239,1,0,0,0,242,243,3,48,24,0,243,244,5,
+23,0,0,244,247,1,0,0,0,245,247,3,48,24,0,246,242,1,0,0,0,246,245,1,0,0,0,
+247,248,1,0,0,0,248,249,5,25,0,0,249,45,1,0,0,0,250,255,5,24,0,0,251,252,
+5,18,0,0,252,254,5,23,0,0,253,251,1,0,0,0,254,257,1,0,0,0,255,253,1,0,0,
+0,255,256,1,0,0,0,256,261,1,0,0,0,257,255,1,0,0,0,258,259,5,18,0,0,259,262,
+5,23,0,0,260,262,5,18,0,0,261,258,1,0,0,0,261,260,1,0,0,0,262,263,1,0,0,
+0,263,264,5,25,0,0,264,47,1,0,0,0,265,266,3,50,25,0,266,267,5,21,0,0,267,
+268,3,52,26,0,268,49,1,0,0,0,269,270,5,19,0,0,270,51,1,0,0,0,271,272,5,19,
+0,0,272,53,1,0,0,0,273,274,5,18,0,0,274,55,1,0,0,0,21,60,62,71,81,88,99,
+106,116,123,135,141,151,158,167,177,184,200,239,246,255,261];
 
 
 const atn = new antlr4.atn.ATNDeserializer().deserialize(serializedATN);
@@ -708,6 +708,8 @@ export default class TaskProjectParser extends antlr4.Parser {
 	        }
 	        this.state = 186;
 	        this.match(TaskProjectParser.CLOSE_BRACES);
+	        this.state = 187;
+	        this.match(TaskProjectParser.SEMICOLON);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
 		        localctx.exception = re;
@@ -728,62 +730,62 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    let localctx = new SetPropertyContext(this, this._ctx, this.state);
 	    this.enterRule(localctx, 22, TaskProjectParser.RULE_setProperty);
 	    try {
-	        this.state = 199;
+	        this.state = 200;
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
 	        case 5:
 	            this.enterOuterAlt(localctx, 1);
-	            this.state = 188;
+	            this.state = 189;
 	            this.setName();
 	            break;
 	        case 6:
 	            this.enterOuterAlt(localctx, 2);
-	            this.state = 189;
+	            this.state = 190;
 	            this.setDescription();
 	            break;
 	        case 7:
 	            this.enterOuterAlt(localctx, 3);
-	            this.state = 190;
+	            this.state = 191;
 	            this.setDeadline();
 	            break;
 	        case 8:
 	            this.enterOuterAlt(localctx, 4);
-	            this.state = 191;
+	            this.state = 192;
 	            this.setStatus();
 	            break;
 	        case 9:
 	            this.enterOuterAlt(localctx, 5);
-	            this.state = 192;
+	            this.state = 193;
 	            this.setPriority();
 	            break;
 	        case 12:
 	            this.enterOuterAlt(localctx, 6);
-	            this.state = 193;
+	            this.state = 194;
 	            this.setEmail();
 	            break;
 	        case 10:
 	            this.enterOuterAlt(localctx, 7);
-	            this.state = 194;
+	            this.state = 195;
 	            this.setDeps();
 	            break;
 	        case 11:
 	            this.enterOuterAlt(localctx, 8);
-	            this.state = 195;
+	            this.state = 196;
 	            this.setUsers();
 	            break;
 	        case 13:
 	            this.enterOuterAlt(localctx, 9);
-	            this.state = 196;
+	            this.state = 197;
 	            this.setTasks();
 	            break;
 	        case 14:
 	            this.enterOuterAlt(localctx, 10);
-	            this.state = 197;
+	            this.state = 198;
 	            this.setProjects();
 	            break;
 	        case 15:
 	            this.enterOuterAlt(localctx, 11);
-	            this.state = 198;
+	            this.state = 199;
 	            this.setAdditional();
 	            break;
 	        default:
@@ -810,9 +812,9 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 24, TaskProjectParser.RULE_setName);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 201;
-	        this.match(TaskProjectParser.NAME);
 	        this.state = 202;
+	        this.match(TaskProjectParser.NAME);
+	        this.state = 203;
 	        this.match(TaskProjectParser.QUOTED_TEXT);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -835,9 +837,9 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 26, TaskProjectParser.RULE_setDescription);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 204;
-	        this.match(TaskProjectParser.DESCRIPTION);
 	        this.state = 205;
+	        this.match(TaskProjectParser.DESCRIPTION);
+	        this.state = 206;
 	        this.match(TaskProjectParser.QUOTED_TEXT);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -860,9 +862,9 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 28, TaskProjectParser.RULE_setDeadline);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 207;
-	        this.match(TaskProjectParser.DEADLINE);
 	        this.state = 208;
+	        this.match(TaskProjectParser.DEADLINE);
+	        this.state = 209;
 	        this.match(TaskProjectParser.QUOTED_TEXT);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -885,9 +887,9 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 30, TaskProjectParser.RULE_setStatus);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 210;
-	        this.match(TaskProjectParser.STATUS);
 	        this.state = 211;
+	        this.match(TaskProjectParser.STATUS);
+	        this.state = 212;
 	        this.match(TaskProjectParser.QUOTED_TEXT);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -910,9 +912,9 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 32, TaskProjectParser.RULE_setPriority);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 213;
-	        this.match(TaskProjectParser.PRIORITY);
 	        this.state = 214;
+	        this.match(TaskProjectParser.PRIORITY);
+	        this.state = 215;
 	        this.match(TaskProjectParser.NUM);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -935,9 +937,9 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 34, TaskProjectParser.RULE_setEmail);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 216;
-	        this.match(TaskProjectParser.EMAIL);
 	        this.state = 217;
+	        this.match(TaskProjectParser.EMAIL);
+	        this.state = 218;
 	        this.match(TaskProjectParser.QUOTED_TEXT);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -960,9 +962,9 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 36, TaskProjectParser.RULE_setDeps);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 219;
-	        this.match(TaskProjectParser.DEPS);
 	        this.state = 220;
+	        this.match(TaskProjectParser.DEPS);
+	        this.state = 221;
 	        this.array();
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -985,9 +987,9 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 38, TaskProjectParser.RULE_setUsers);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 222;
-	        this.match(TaskProjectParser.USERS);
 	        this.state = 223;
+	        this.match(TaskProjectParser.USERS);
+	        this.state = 224;
 	        this.array();
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -1010,9 +1012,9 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 40, TaskProjectParser.RULE_setTasks);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 225;
-	        this.match(TaskProjectParser.TASKS);
 	        this.state = 226;
+	        this.match(TaskProjectParser.TASKS);
+	        this.state = 227;
 	        this.array();
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -1035,9 +1037,9 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 42, TaskProjectParser.RULE_setProjects);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 228;
-	        this.match(TaskProjectParser.PROJECTS);
 	        this.state = 229;
+	        this.match(TaskProjectParser.PROJECTS);
+	        this.state = 230;
 	        this.array();
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -1060,43 +1062,43 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 44, TaskProjectParser.RULE_setAdditional);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 231;
-	        this.match(TaskProjectParser.ADDITIONAL);
 	        this.state = 232;
+	        this.match(TaskProjectParser.ADDITIONAL);
+	        this.state = 233;
 	        this.match(TaskProjectParser.OPEN_BRACES);
-	        this.state = 238;
+	        this.state = 239;
 	        this._errHandler.sync(this);
 	        var _alt = this._interp.adaptivePredict(this._input,17,this._ctx)
 	        while(_alt!=2 && _alt!=antlr4.atn.ATN.INVALID_ALT_NUMBER) {
 	            if(_alt===1) {
-	                this.state = 233;
-	                this.additional();
 	                this.state = 234;
+	                this.additional();
+	                this.state = 235;
 	                this.match(TaskProjectParser.COMMA); 
 	            }
-	            this.state = 240;
+	            this.state = 241;
 	            this._errHandler.sync(this);
 	            _alt = this._interp.adaptivePredict(this._input,17,this._ctx);
 	        }
 
-	        this.state = 245;
+	        this.state = 246;
 	        this._errHandler.sync(this);
 	        var la_ = this._interp.adaptivePredict(this._input,18,this._ctx);
 	        switch(la_) {
 	        case 1:
-	            this.state = 241;
-	            this.additional();
 	            this.state = 242;
+	            this.additional();
+	            this.state = 243;
 	            this.match(TaskProjectParser.COMMA);
 	            break;
 
 	        case 2:
-	            this.state = 244;
+	            this.state = 245;
 	            this.additional();
 	            break;
 
 	        }
-	        this.state = 247;
+	        this.state = 248;
 	        this.match(TaskProjectParser.CLOSE_BRACES);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -1119,41 +1121,41 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 46, TaskProjectParser.RULE_array);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 249;
+	        this.state = 250;
 	        this.match(TaskProjectParser.OPEN_BRACES);
-	        this.state = 254;
+	        this.state = 255;
 	        this._errHandler.sync(this);
 	        var _alt = this._interp.adaptivePredict(this._input,19,this._ctx)
 	        while(_alt!=2 && _alt!=antlr4.atn.ATN.INVALID_ALT_NUMBER) {
 	            if(_alt===1) {
-	                this.state = 250;
-	                this.match(TaskProjectParser.TEXT);
 	                this.state = 251;
+	                this.match(TaskProjectParser.TEXT);
+	                this.state = 252;
 	                this.match(TaskProjectParser.COMMA); 
 	            }
-	            this.state = 256;
+	            this.state = 257;
 	            this._errHandler.sync(this);
 	            _alt = this._interp.adaptivePredict(this._input,19,this._ctx);
 	        }
 
-	        this.state = 260;
+	        this.state = 261;
 	        this._errHandler.sync(this);
 	        var la_ = this._interp.adaptivePredict(this._input,20,this._ctx);
 	        switch(la_) {
 	        case 1:
-	            this.state = 257;
-	            this.match(TaskProjectParser.TEXT);
 	            this.state = 258;
+	            this.match(TaskProjectParser.TEXT);
+	            this.state = 259;
 	            this.match(TaskProjectParser.COMMA);
 	            break;
 
 	        case 2:
-	            this.state = 259;
+	            this.state = 260;
 	            this.match(TaskProjectParser.TEXT);
 	            break;
 
 	        }
-	        this.state = 262;
+	        this.state = 263;
 	        this.match(TaskProjectParser.CLOSE_BRACES);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -1176,11 +1178,11 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 48, TaskProjectParser.RULE_additional);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 264;
-	        this.additionalKey();
 	        this.state = 265;
-	        this.match(TaskProjectParser.COLON);
+	        this.additionalKey();
 	        this.state = 266;
+	        this.match(TaskProjectParser.COLON);
+	        this.state = 267;
 	        this.additionalValue();
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -1203,7 +1205,7 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 50, TaskProjectParser.RULE_additionalKey);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 268;
+	        this.state = 269;
 	        this.match(TaskProjectParser.QUOTED_TEXT);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -1226,7 +1228,7 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 52, TaskProjectParser.RULE_additionalValue);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 270;
+	        this.state = 271;
 	        this.match(TaskProjectParser.QUOTED_TEXT);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -1249,7 +1251,7 @@ export default class TaskProjectParser extends antlr4.Parser {
 	    this.enterRule(localctx, 54, TaskProjectParser.RULE_varname);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 272;
+	        this.state = 273;
 	        this.match(TaskProjectParser.TEXT);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -2031,6 +2033,10 @@ class SetContext extends antlr4.ParserRuleContext {
 
 	CLOSE_BRACES() {
 	    return this.getToken(TaskProjectParser.CLOSE_BRACES, 0);
+	};
+
+	SEMICOLON() {
+	    return this.getToken(TaskProjectParser.SEMICOLON, 0);
 	};
 
 	setProperty = function(i) {

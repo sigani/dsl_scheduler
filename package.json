@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha src/test/*.js",
-    "antlr": "antlr4 -Dlanguage=JavaScript -visitor -o src/parser src/parser/TaskProjectLexer.g4 src/parser/TaskProjectParser.g4",
+    "antlr": "antlr4 -Dlanguage=JavaScript -visitor src/parser/TaskProjectLexer.g4 src/parser/TaskProjectParser.g4",
     "start": "node src/server.js",
     "dev": "nodemon src/server.js"
   },
