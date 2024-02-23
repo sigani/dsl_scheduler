@@ -30,7 +30,7 @@ user user3 {
     additional: {"test": "test", "TTE":"TESD"}
 };
 
-project project2 {
+task task4 {
     deps: {task1, task2, project1},
 };
 

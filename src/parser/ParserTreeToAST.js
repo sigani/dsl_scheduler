@@ -9,101 +9,84 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
     // TODO: decide declaring same varname but different type is allowed (currently this is allowed; edit* i think shouldn't be allowed)
     // TODO: arrow syntax in Project delaration
     // TODO: callbacks property in task
-    // TODO: order of statement does not matter currently (e.g. task declaration executes first); do visitChildren inside visitProgram
+
     tasksTrack = new Map();
     projectsTrack = new Map();
     usersTrack = new Map();
+    tasks = [];
+    projects = [];
+    users = [];
 
     visitProgram(ctx) {
-        let tasks = [];
-        let projects = [];
-        let users = [];
-        for (let task of ctx.task()) {
-            task = task.accept(this);
-            tasks.push(task);
-            this.tasksTrack.set(task.getVarname(), task);
-        }
-        for (let project of ctx.project()) {
-            project = project.accept(this);
+        this.visitChildren(ctx);
 
-            projects.push(project);
-            this.projectsTrack.set(project.getVarname(), project);
-        }
-        for (let user of ctx.user()) {
-            user = user.accept(this);
-            users.push(user);
-            this.usersTrack.set(user.getVarname(), user);
-        }
-
-        for (let setStatement of ctx.set()) {
-            setStatement.accept(this);
-        }
-
-        for (let setDeps of ctx.setDepsArrowNotation()) {
-            setDeps.accept(this);
-        }
-
-        return new Program(tasks, projects, users);
+        return new Program(this.tasks, this.projects, this.users);
     }
 
     visitTask(ctx) {
         let varname = ctx.varname().TEXT().getText();
         this.checkDuplicateVarname(varname);
+
+        let task;
         if (ctx.QUOTED_TEXT() != null) {
             // check getText() appropriate method
             let name = ctx.QUOTED_TEXT().getText();
-            return new Task(varname, this.removeQuotes(name), null, null, null, null, null, null);
+            task = new Task(varname, this.removeQuotes(name), null, null, null, null, null, null);
         } else {
-            let task = new Task(varname, null, null, null, null, null, null, null);
+            task = new Task(varname, null, null, null, null, null, null, null);
             let taskBody = ctx.taskBody();
             for (let property of taskBody.taskProperty()) {
                 this.setProperty(task, property);
             }
-
-            return task;
         }
+        this.tasks.push(task);
+        this.tasksTrack.set(task.getVarname(), task);
     }
 
     visitProject(ctx) {
         let varname = ctx.varname().TEXT().getText();
         this.checkDuplicateVarname(varname);
 
+        let project;
         if (ctx.QUOTED_TEXT() != null) {
             // check getText() appropriate method
             let name = ctx.QUOTED_TEXT().getText();
-            return new Project(varname, this.removeQuotes(name), null, null, null, null, null, null, null);
+            project = new Project(varname, this.removeQuotes(name), null, null, null, null, null, null, null);
         } else if (ctx.array() != null) {
-            let project = new Project(varname, null, null, null, null, null, null, null, null);
+            project = new Project(varname, null, null, null, null, null, null, null, null);
             project.setTasks(this.visitArray(ctx.array(), 'task'));
             return project;
         } else {
-            let project = new Project(varname, null, null, null, null, null, null, null, null);
+            project = new Project(varname, null, null, null, null, null, null, null, null);
             let projectBody = ctx.projectBody();
             for (let property of projectBody.projectProperty()) {
                 this.setProperty(project, property);
             }
-
-            return project;
         }
+
+        this.projects.push(project);
+        this.projectsTrack.set(project.getVarname(), project);
     }
 
     visitUser(ctx) {
         let varname = ctx.varname().TEXT().getText();
         this.checkDuplicateVarname(varname);
 
+        let user;
         if (ctx.QUOTED_TEXT() != null) {
             // check getText() appropriate method
             let name = ctx.QUOTED_TEXT().getText();
-            return new User(varname, name, null, null, null, null);
+            user = new User(varname, name, null, null, null, null);
         } else {
-            let user = new User(varname, null, null, null, null, null);
+            user = new User(varname, null, null, null, null, null);
             let userBody = ctx.userBody();
             for (let property of userBody.userProperty()) {
                 this.setProperty(user, property);
             }
-
-            return user;
         }
+
+        this.users.push(user);
+        this.usersTrack.set(user.getVarname(), user);
     }
 
     visitSet(ctx) {
