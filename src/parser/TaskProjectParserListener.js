@@ -95,6 +95,24 @@ export default class TaskProjectParserListener extends antlr4.tree.ParseTreeList
 	}
 
 
+	// Enter a parse tree produced by TaskProjectParser#set.
+	enterSet(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#set.
+	exitSet(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#setProperty.
+	enterSetProperty(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setProperty.
+	exitSetProperty(ctx) {
+	}
+
+
 	// Enter a parse tree produced by TaskProjectParser#setName.
 	enterSetName(ctx) {
 	}

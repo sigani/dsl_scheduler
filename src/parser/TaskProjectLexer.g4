@@ -1,5 +1,7 @@
 lexer grammar TaskProjectLexer;
 
+// TODO: TEXT include underscore or not
+
 LEADING_SPACE : [ \t]+ -> channel(HIDDEN);
 
 TASK_DEF: 'task ' SPACE*;
@@ -18,6 +20,10 @@ EMAIL: 'email:' SPACE*;
 TASKS: 'tasks:' SPACE*;
 PROJECTS: 'projects:' SPACE*;
 ADDITIONAL: 'additional:' SPACE*;
+
+SET: 'set ' SPACE*;
+SET_DEPS: 'deps ' SPACE*;
+
 
 
 TEXT: [a-zA-Z][a-zA-Z0-9]*;

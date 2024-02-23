@@ -6,7 +6,7 @@ import User from "../ast/User.js";
 
 export default class ParserTreeToAST extends TaskProjectParserVisitor{
     // TODO: error handling (like variable not declared)
-    // TODO: decide declaring same varname but different type is allowed (currently this is allowed)
+    // TODO: decide declaring same varname but different type is allowed (currently this is allowed; edit* i think shouldn't be allowed)
     // TODO: arrow syntax in Project delaration
     // TODO: callbacks property in task
     // TODO: order of statement does not matter currently (e.g. task declaration executes first); do visitChildren inside visitProgram
@@ -33,6 +33,10 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
             user = user.accept(this);
             users.push(user);
             this.usersTrack.set(user.getVarname(), user);
+        }
+
+        for (let setStatement of ctx.set()) {
+            setStatement.accept(this);
         }
 
         return new Program(tasks, projects, users);
@@ -123,6 +127,20 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
 
             return user;
         }
+    }
+
+    visitSet(ctx) {
+        let varname = ctx.varname().TEXT().getText();
+        let object = this.tasksTrack.get(varname) || this.projectsTrack.get(varname) || this.usersTrack.get(varname) || null;
+        if (!object) {
+            throw new Error("Object with " + varname + " does not exist; declare the variable first");
+        }
+
+        for (let property of ctx.setProperty()) {
+
+        }
+
+        return super.visitSet(ctx);
     }
 
     visitSetAdditional(ctx) {

@@ -1,0 +1,7 @@
+task   task1   {
+    name: "Task 1",
+    description: "This is a sample task",
+    deadline: "2024-02-20",
+    status: "In Progress",
+    priority: 2,
+};

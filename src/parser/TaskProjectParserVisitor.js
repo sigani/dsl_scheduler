@@ -66,6 +66,18 @@ export default class TaskProjectParserVisitor extends antlr4.tree.ParseTreeVisit
 	}
 
 
+	// Visit a parse tree produced by TaskProjectParser#set.
+	visitSet(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#setProperty.
+	visitSetProperty(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
 	// Visit a parse tree produced by TaskProjectParser#setName.
 	visitSetName(ctx) {
 	  return this.visitChildren(ctx);

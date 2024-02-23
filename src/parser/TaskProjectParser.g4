@@ -2,7 +2,7 @@ parser grammar TaskProjectParser;
 
 options { tokenVocab=TaskProjectLexer; }
 
-program: (task | project | user)* EOF;
+program: (task | project | user | set)* EOF;
 
 task: TASK_DEF varname (QUOTED_TEXT | taskBody) SEMICOLON;
 taskBody: OPEN_BRACES (taskProperty COMMA)* ((taskProperty COMMA) | taskProperty) CLOSE_BRACES;
@@ -15,6 +15,10 @@ projectProperty: setName | setDescription | setDeadline | setStatus | setPriorit
 user: USER_DEF varname (QUOTED_TEXT | userBody) SEMICOLON;
 userBody: OPEN_BRACES (userProperty COMMA)* ((userProperty COMMA) | userProperty) CLOSE_BRACES;
 userProperty: setName | setEmail | setTasks | setProjects | setAdditional;
+
+set: SET varname OPEN_BRACES (setProperty COMMA)* ((setProperty COMMA) | setProperty) CLOSE_BRACES;
+setProperty: setName | setDescription | setDeadline | setStatus | setPriority | setEmail | setDeps | setUsers |
+                setTasks | setProjects | setAdditional;
 
 setName: NAME QUOTED_TEXT;
 setDescription: DESCRIPTION QUOTED_TEXT;
