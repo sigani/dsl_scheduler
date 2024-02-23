@@ -1,5 +1,7 @@
 lexer grammar TaskProjectLexer;
 
+// TODO: TEXT include underscore or not
+
 LEADING_SPACE : [ \t]+ -> channel(HIDDEN);
 
 TASK_DEF: 'task ' SPACE*;
@@ -19,6 +21,10 @@ TASKS: 'tasks:' SPACE*;
 PROJECTS: 'projects:' SPACE*;
 ADDITIONAL: 'additional:' SPACE*;
 
+SET: 'set ' SPACE*;
+SET_DEPS: 'deps ' SPACE*;
+
+
 
 TEXT: [a-zA-Z][a-zA-Z0-9]*;
 QUOTED_TEXT : '"' (~["])* '"';
@@ -30,6 +36,7 @@ OPEN_BRACES: '{';
 CLOSE_BRACES: '}';
 OPEN_PAREN: '(';
 CLOSE_PAREN: ')';
+ARROW: '->';
 SPACE : [\r\n\t ]+ -> channel(HIDDEN);
 NEWLINE : [\r\n]+;
 // TODO: comment out for now

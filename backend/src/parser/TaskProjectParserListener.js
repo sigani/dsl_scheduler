@@ -95,6 +95,33 @@ export default class TaskProjectParserListener extends antlr4.tree.ParseTreeList
 	}
 
 
+	// Enter a parse tree produced by TaskProjectParser#set.
+	enterSet(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#set.
+	exitSet(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#setProperty.
+	enterSetProperty(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setProperty.
+	exitSetProperty(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#setDepsArrowNotation.
+	enterSetDepsArrowNotation(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setDepsArrowNotation.
+	exitSetDepsArrowNotation(ctx) {
+	}
+
+
 	// Enter a parse tree produced by TaskProjectParser#setName.
 	enterSetName(ctx) {
 	}
@@ -227,6 +254,33 @@ export default class TaskProjectParserListener extends antlr4.tree.ParseTreeList
 
 	// Exit a parse tree produced by TaskProjectParser#additionalValue.
 	exitAdditionalValue(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#depsArrow.
+	enterDepsArrow(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#depsArrow.
+	exitDepsArrow(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#left.
+	enterLeft(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#left.
+	exitLeft(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#right.
+	enterRight(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#right.
+	exitRight(ctx) {
 	}
 
 

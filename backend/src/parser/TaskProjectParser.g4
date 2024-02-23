@@ -2,7 +2,7 @@ parser grammar TaskProjectParser;
 
 options { tokenVocab=TaskProjectLexer; }
 
-program: (task | project | user)* EOF;
+program: (task | project | user | set | setDepsArrowNotation)* EOF;
 
 task: TASK_DEF varname (QUOTED_TEXT | taskBody) SEMICOLON;
 taskBody: OPEN_BRACES (taskProperty COMMA)* ((taskProperty COMMA) | taskProperty) CLOSE_BRACES;
@@ -15,6 +15,12 @@ projectProperty: setName | setDescription | setDeadline | setStatus | setPriorit
 user: USER_DEF varname (QUOTED_TEXT | userBody) SEMICOLON;
 userBody: OPEN_BRACES (userProperty COMMA)* ((userProperty COMMA) | userProperty) CLOSE_BRACES;
 userProperty: setName | setEmail | setTasks | setProjects | setAdditional;
+
+set: SET varname OPEN_BRACES (setProperty COMMA)* ((setProperty COMMA) | setProperty) CLOSE_BRACES SEMICOLON;
+setProperty: setName | setDescription | setDeadline | setStatus | setPriority | setEmail | setDeps | setUsers |
+                setTasks | setProjects | setAdditional;
+
+setDepsArrowNotation: SET SET_DEPS OPEN_BRACES (depsArrow COMMA)* ((depsArrow COMMA) | depsArrow) CLOSE_BRACES SEMICOLON;
 
 setName: NAME QUOTED_TEXT;
 setDescription: DESCRIPTION QUOTED_TEXT;
@@ -33,6 +39,10 @@ array: OPEN_BRACES (TEXT COMMA)* ((TEXT COMMA) | TEXT) CLOSE_BRACES;
 additional: additionalKey COLON additionalValue;
 additionalKey: QUOTED_TEXT;
 additionalValue: QUOTED_TEXT;
+
+depsArrow: left ARROW right;
+left: TEXT;
+right: TEXT;
 
 varname: TEXT;
 
