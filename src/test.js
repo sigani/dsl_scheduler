@@ -61,4 +61,4 @@ const visitor = new ParserTreeToAST();
 
 const program = parser.program().accept(visitor);
 
-console.log(program.getTasks()[2].getDeps());
+console.log(program);

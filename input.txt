@@ -36,6 +36,8 @@ task task4 {
 
 task task3 "Task 3";
 
+project project2 "Project 2";
+
 set user1 {
     email: "test@gmail.com",
     email: "test@icloud.com"
@@ -48,4 +50,5 @@ set task2 {
 set deps {
     task1->task3,
     task2->task3,
+    task1->project2,
 };

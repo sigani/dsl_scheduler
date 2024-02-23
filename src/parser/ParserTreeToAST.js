@@ -5,8 +5,7 @@ import Project from "../ast/Project.js";
 import User from "../ast/User.js";
 
 export default class ParserTreeToAST extends TaskProjectParserVisitor{
-    // TODO: error handling (like variable not declared)
-    // TODO: decide declaring same varname but different type is allowed (currently this is allowed; edit* i think shouldn't be allowed)
+    // TODO: error handling (like variable not declared); mostly done
     // TODO: arrow syntax in Project delaration
     // TODO: callbacks property in task
 
