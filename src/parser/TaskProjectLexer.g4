@@ -36,6 +36,7 @@ OPEN_BRACES: '{';
 CLOSE_BRACES: '}';
 OPEN_PAREN: '(';
 CLOSE_PAREN: ')';
+ARROW: '->';
 SPACE : [\r\n\t ]+ -> channel(HIDDEN);
 NEWLINE : [\r\n]+;
 // TODO: comment out for now

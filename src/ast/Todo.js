@@ -2,16 +2,24 @@ import User from "./User.js";
 import Task from "./Task.js";
 
 export default class Todo {
-  constructor(varname, name, description, deadline, status, priority, users) {
+  constructor(varname, name, description, deadline, status, priority, deps, users) {
     this.varname = varname;
     this.name = name;
     this.description = description;
     this.deadline = deadline;
     this.status = status;
     this.priority = priority;
+    if (!deps) {
+      this.deps = [];
+    } else {
+      this.deps = deps;
+    }
     this.users = users;
   }
 
+  addDeps(dependency) {
+    this.deps.push(dependency);
+  }
   setVarname(varname) {
     this.varname = varname;
   }
@@ -34,6 +42,10 @@ export default class Todo {
 
   setPriority(priority) {
     this.priority = priority;
+  }
+
+  setDeps(deps) {
+    this.deps = deps;
   }
 
   setUsers(users) {
@@ -63,6 +75,10 @@ export default class Todo {
 
   getPriority() {
     return this.priority;
+  }
+
+  getDeps() {
+    return this.deps;
   }
 
   getUsers() {

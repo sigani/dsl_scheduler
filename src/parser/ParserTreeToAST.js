@@ -39,6 +39,10 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
             setStatement.accept(this);
         }
 
+        for (let setDeps of ctx.setDepsArrowNotation()) {
+            setDeps.accept(this);
+        }
+
         return new Program(tasks, projects, users);
     }
 
@@ -114,6 +118,12 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
         }
     }
 
+    visitSetDepsArrowNotation(ctx) {
+        for (let deps of ctx.depsArrow()) {
+            deps.accept(this);
+        }
+    }
+
     visitSetAdditional(ctx) {
         let ret = new Map();
         for (let additional of ctx.additional()) {
@@ -132,6 +142,8 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
                 object = this.tasksTrack.get(item.getText());
             } else if (type === 'project') {
                 object = this.projectsTrack.get(item.getText());
+            } else if (type === 'deps') {
+                object = this.tasksTrack.get(item.getText()) || this.projectsTrack.get(item.getText()) || null
             } else {
                 object = this.usersTrack.get(item.getText());
             }
@@ -141,6 +153,20 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
             array.push(object);
         }
         return array;
+    }
+
+    visitDepsArrow(ctx) {
+        let rightObject = this.tasksTrack.get(ctx.right().TEXT().getText()) || this.projectsTrack.get(ctx.right().TEXT().getText());
+        if (!rightObject) {
+            throw new Error("Task or project with variable name " + ctx.right().TEXT().getText() + " does not exist.")
+        }
+
+        let leftObject = this.tasksTrack.get(ctx.left().TEXT().getText()) || this.projectsTrack.get(ctx.left().TEXT().getText());
+        if (!leftObject) {
+            throw new Error("Task or project with variable name " + ctx.left().TEXT().getText() + " does not exist.")
+        }
+
+        rightObject.addDeps(leftObject);
     }
 
     setProperty(object, property) {
@@ -184,11 +210,7 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
                 throw new Error("Deps property does not exist for " + object.getVarname());
             }
             let array = property.setDeps().array();
-            if (object instanceof Project) {
-                object.setDeps(this.visitArray(array, 'project'));
-            } else {
-                object.setDeps(this.visitArray(array, 'task'));
-            }
+            object.setDeps(this.visitArray(array, 'deps'));
         }
 
         if (property.setUsers && property.setUsers() != null) {
