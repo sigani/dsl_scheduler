@@ -36,11 +36,8 @@ OPEN_BRACES: '{';
 CLOSE_BRACES: '}';
 OPEN_PAREN: '(';
 CLOSE_PAREN: ')';
-
-
 SPACE : [\r\n\t ]+ -> channel(HIDDEN);
 NEWLINE : [\r\n]+;
-
 // TODO: comment out for now
 //TASK_PROJ: ('task' | 'project' ) WS*;
 //TASK_PROJ_FIELDS:

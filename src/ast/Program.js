@@ -2,21 +2,16 @@ import Task from "./Task.js";
 import Project from "./Project.js";
 
 export default class Program {
-    constructor(tasks, projects, users) {
-        this.tasks = tasks;
-        this.projects = projects;
-        this.users = users;
-    }
+  constructor(tasks, projects) {
+    this.tasks = tasks;
+    this.projects = projects;
+  }
 
-    getTasks() {
-        return this.tasks;
-    }
+  getTasks() {
+    return this.tasks;
+  }
 
-    getProjects() {
-        return this.projects;
-    }
-
-    getUsers() {
-        return this.users;
-    }
+  getProjects() {
+    return this.projects;
+  }
 }
