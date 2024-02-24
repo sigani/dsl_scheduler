@@ -1,30 +1,95 @@
-import React from "react";
+import React, { useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import "./index.css";
-import {Button, TextField} from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import HTMLRenderer from "./components/HTMLRenderer.jsx";
 
 function App() {
-    return (
-        <div style={{display: "flex"}}>
-            <div style={{height: "100vh", width: "50vw"}}>
-                <div className="button-container">
-                    <TextField id="standard-basic" label="Schedule Name"/>
-                    <Button variant="contained" color="primary">
-                        Save
-                    </Button>
-                </div>
-                <br/>
-                <CodeMirror
-                    height="100%"
-                    options={{lineNumbers: true}} // You can add any other options you need
-                />
-            </div>
-            <div style={{height: "100vh", width: "50vw"}}>
-                <HTMLRenderer />
-            </div>
+  const [code, setCode] = useState("");
+  const [title, setTitle] = useState("");
+  const [fetchName, setFetchName] = useState("");
+
+  const submitSchedule = () => {
+    console.log(title, code);
+    fetch("http://localhost:3000/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: title, code: code }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        alert("Schedule saved successfully");
+        console.log(res);
+      })
+      .catch((err) => {
+        alert("Error saving schedule: yo code invaldi");
+        console.log(err);
+      });
+  };
+
+  const fetchTable = () => {
+    fetch("http://localhost:3000/fetch?name=" + fetchName, {
+      method: "GET",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        alert(JSON.stringify(data, null, 2));
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  return (
+    <div style={{ display: "flex" }}>
+      <div style={{ height: "100vh", width: "50vw" }}>
+        <div className="button-container">
+          <TextField
+            id="standard-basic"
+            label="Schedule Name"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <Button variant="contained" color="primary" onClick={submitSchedule}>
+            Save
+          </Button>
         </div>
-    );
+        <br />
+        <div style={{ flexGrow: 1, border: "1px solid black" }}>
+          <CodeMirror
+            value={code}
+            height="80vh"
+            options={{ lineNumbers: true, indentWithTab: true }} // You can add any other options you need
+            onChange={(editor) => {
+              setCode(editor);
+            }}
+          />
+        </div>
+      </div>
+      <div style={{ height: "100vh", width: "50vw" }}>
+        {/* <HTMLRenderer /> */}
+        <TextField
+          id="standard-basic"
+          label="Schedule Name"
+          value={fetchName}
+          onChange={(e) => setFetchName(e.target.value)}
+        />
+        <Button variant="contained" color="primary" onClick={fetchTable}>
+          Fetch
+        </Button>
+      </div>
+    </div>
+  );
 }
 
 export default App;
