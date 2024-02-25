@@ -57,3 +57,7 @@ const visitor = new ParserTreeToAST();
 const program = parser.program().accept(visitor);
 
 console.log(program);
+
+// for (let statement of parser.program().func()[0].functionBody().funcFields()[2].conditional().getChild(0)) {
+//     console.log(statement.getText());
+// }

@@ -3,6 +3,7 @@ import Program from "../ast/Program.js";
 import Task from "../ast/Task.js";
 import Project from "../ast/Project.js";
 import User from "../ast/User.js";
+import Reminder from "../ast/Reminder.js";
 
 export default class ParserTreeToAST extends TaskProjectParserVisitor{
     // TODO: error handling (like variable not declared); mostly done
@@ -15,11 +16,12 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
     tasks = [];
     projects = [];
     users = [];
+    funcs = new Map();
 
     visitProgram(ctx) {
         this.visitChildren(ctx);
 
-        return new Program(this.tasks, this.projects, this.users);
+        return new Program(this.tasks, this.projects, this.users, this.funcs);
     }
 
     visitTask(ctx) {
@@ -104,6 +106,50 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
         for (let deps of ctx.depsArrow()) {
             deps.accept(this);
         }
+    }
+
+    visitFunc(ctx) {
+        let funcName = ctx.funcname().getText();
+
+        if (this.funcs.has(funcName)) {
+            throw new Error("Function with " + funcName + " has already been declared.");
+        }
+
+        let funcBody = [];
+
+        for (let statement of ctx.functionBody().funcFields()) {
+            funcBody.push(...statement.accept(this));
+        }
+
+        return this.funcs.set(funcName, funcBody);
+    }
+
+    visitFuncFields(ctx) {
+        if (ctx.conditional() != null) {
+            return ctx.conditional().accept(this);
+        } else {
+            return [ctx.getText()];
+        }
+    }
+
+    visitConditional(ctx) {
+        let conditional = [];
+        conditional.push(ctx.IF().getText() + ctx.OPEN_PAREN().getText() + ctx.condition().getText() + ctx.CLOSE_PAREN().getText());
+        conditional.push('{');
+        for (let statement of ctx.block()[0].blockFields()) {
+            conditional.push(statement.getText());
+        }
+        conditional.push('}');
+
+        if (ctx.ELSE() != null) {
+            conditional.push(ctx.ELSE().getText());
+            conditional.push('{');
+            for (let statement of ctx.block()[1].blockFields()) {
+                conditional.push(statement.getText());
+            }
+            conditional.push('}');
+        }
+        return conditional;
     }
 
     visitSetAdditional(ctx) {
@@ -233,6 +279,42 @@ export default class ParserTreeToAST extends TaskProjectParserVisitor{
             let additionals = property.setAdditional();
             object.setAdditional(additionals.accept(this));
         }
+
+        if (property.setCallbacks && property.setCallbacks() != null) {
+            if (!object.setCallbacks) {
+                throw new Error("Callbacks property does not exist for " + object.getVarname());
+            }
+            let onUnblock = null;
+            let reminder = null;
+            for (let callback of property.setCallbacks().callBackFields()) {
+                if (callback.onUnblock() != null) {
+                    onUnblock = callback.onUnblock().accept(this);
+                } else {
+                    reminder = callback.reminder().accept(this);
+                }
+            }
+            object.setCallbacks(onUnblock, reminder);
+        }
+    }
+
+    visitOnUnblock(ctx) {
+        let funcName = ctx.varname().TEXT().getText();
+        if (!this.funcs.has(funcName)) {
+            throw new Error("Function with name " + funcName + " has not been defined");
+        }
+        return funcName;
+    }
+
+    visitReminder(ctx) {
+        let funcName = ctx.varname().TEXT().getText();
+        if (!this.funcs.has(funcName)) {
+            throw new Error("Function with name " + funcName + " has not been defined");
+        }
+
+        const regex = /[0-9]{4}/;
+        let time = ctx.REMINDER().getText().match(regex);
+
+        return new Reminder(...time, funcName);
     }
 
     checkDuplicateVarname(varname) {

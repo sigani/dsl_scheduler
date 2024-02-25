@@ -2,10 +2,15 @@ import Task from "./Task.js";
 import Project from "./Project.js";
 
 export default class Program {
-  constructor(tasks, projects, users) {
+  constructor(tasks, projects, users, funcs) {
     this.tasks = tasks;
     this.projects = projects;
     this.users = users;
+    this.funcs = funcs;
+  }
+
+  getFuncs() {
+    return this.funcs;
   }
 
   getTasks() {
@@ -18,5 +23,9 @@ export default class Program {
 
   getUsers() {
     return this.users;
+  }
+
+  addFunc(funName, funcBlock) {
+    this.funcs.set(funName, funcBlock);
   }
 }

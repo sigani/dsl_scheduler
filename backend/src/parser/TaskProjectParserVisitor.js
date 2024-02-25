@@ -150,6 +150,102 @@ export default class TaskProjectParserVisitor extends antlr4.tree.ParseTreeVisit
 	}
 
 
+	// Visit a parse tree produced by TaskProjectParser#setCallbacks.
+	visitSetCallbacks(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#callBackFields.
+	visitCallBackFields(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#onUnblock.
+	visitOnUnblock(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#reminder.
+	visitReminder(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#func.
+	visitFunc(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#functionBody.
+	visitFunctionBody(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#funcFields.
+	visitFuncFields(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#conditional.
+	visitConditional(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#condition.
+	visitCondition(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#block.
+	visitBlock(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#blockFields.
+	visitBlockFields(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#assign.
+	visitAssign(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#started.
+	visitStarted(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#blocked.
+	visitBlocked(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#finished.
+	visitFinished(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#ping.
+	visitPing(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
 	// Visit a parse tree produced by TaskProjectParser#array.
 	visitArray(ctx) {
 	  return this.visitChildren(ctx);
@@ -194,6 +290,12 @@ export default class TaskProjectParserVisitor extends antlr4.tree.ParseTreeVisit
 
 	// Visit a parse tree produced by TaskProjectParser#varname.
 	visitVarname(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by TaskProjectParser#funcname.
+	visitFuncname(ctx) {
 	  return this.visitChildren(ctx);
 	}
 

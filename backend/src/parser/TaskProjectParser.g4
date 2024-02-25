@@ -2,11 +2,11 @@ parser grammar TaskProjectParser;
 
 options { tokenVocab=TaskProjectLexer; }
 
-program: (task | project | user | set | setDepsArrowNotation)* EOF;
+program: (task | project | user | set | setDepsArrowNotation | func)* EOF;
 
 task: TASK_DEF varname (QUOTED_TEXT | taskBody) SEMICOLON;
 taskBody: OPEN_BRACES (taskProperty COMMA)* ((taskProperty COMMA) | taskProperty) CLOSE_BRACES;
-taskProperty: setName | setDescription | setDeadline | setStatus | setPriority | setDeps | setUsers;
+taskProperty: setName | setDescription | setDeadline | setStatus | setPriority | setDeps | setUsers | setCallbacks;
 
 project: PROJECT_DEF varname (QUOTED_TEXT | projectBody | array) SEMICOLON;
 projectBody: OPEN_BRACES (projectProperty COMMA)* ((projectProperty COMMA) | projectProperty) CLOSE_BRACES;
@@ -18,7 +18,7 @@ userProperty: setName | setEmail | setTasks | setProjects | setAdditional;
 
 set: SET varname OPEN_BRACES (setProperty COMMA)* ((setProperty COMMA) | setProperty) CLOSE_BRACES SEMICOLON;
 setProperty: setName | setDescription | setDeadline | setStatus | setPriority | setEmail | setDeps | setUsers |
-                setTasks | setProjects | setAdditional;
+                setTasks | setProjects | setAdditional | setCallbacks;
 
 setDepsArrowNotation: SET SET_DEPS OPEN_BRACES (depsArrow COMMA)* ((depsArrow COMMA) | depsArrow) CLOSE_BRACES SEMICOLON;
 
@@ -33,6 +33,28 @@ setUsers: USERS array;
 setTasks: TASKS array;
 setProjects: PROJECTS array;
 setAdditional: ADDITIONAL OPEN_BRACES (additional COMMA)* ((additional COMMA) | additional) CLOSE_BRACES;
+setCallbacks: CALLBACKS OPEN_BRACES (callBackFields COMMA)* ((callBackFields COMMA) | callBackFields)  CLOSE_BRACES ;
+callBackFields: onUnblock | reminder;
+
+onUnblock: ONUNBLOCK varname;
+reminder: REMINDER varname;
+
+//func: FUNCTION funcname OPEN_PAREN ((param COMMA)* ((param COMMA) | param))? CLOSE_PAREN functionBody SEMICOLON;
+func: FUNCTION funcname OPEN_PAREN CLOSE_PAREN functionBody SEMICOLON;
+//param: (TASK_DEF | PROJECT_DEF | USER_DEF) TEXT;
+functionBody: OPEN_BRACES funcFields* CLOSE_BRACES;
+funcFields: (assign | started | blocked | finished | ping | conditional) SEMICOLON;
+
+conditional: IF OPEN_PAREN condition CLOSE_PAREN block (ELSE block)?;
+condition: NEGATION? (started | blocked | finished);
+block: OPEN_BRACES (blockFields)* CLOSE_BRACES;
+blockFields: (assign | started | blocked | finished | ping) SEMICOLON;
+
+assign: ASSIGN OPEN_PAREN varname COMMA varname CLOSE_PAREN;
+started: STARTED OPEN_PAREN varname CLOSE_PAREN;
+blocked: BLOCKED OPEN_PAREN varname CLOSE_PAREN;
+finished: FINISHED OPEN_PAREN varname CLOSE_PAREN;
+ping: PING OPEN_PAREN varname (COMMA QUOTED_TEXT)? CLOSE_PAREN;
 
 array: OPEN_BRACES (TEXT COMMA)* ((TEXT COMMA) | TEXT) CLOSE_BRACES;
 
@@ -45,6 +67,7 @@ left: TEXT;
 right: TEXT;
 
 varname: TEXT;
+funcname: TEXT;
 
 
 // TODO: comment out for now
@@ -59,19 +82,7 @@ varname: TEXT;
 //        | OB WS* TEXT WS* (COMMA WS* TEXT)* CB)
 //
 //        SC;
-//user_decl:
-//        USER TEXT* WS*
-//        ((OB WS* (USER_FIELDS| NAME_FIELD | TASK_FIELD)* WS* CB)+)? SC;
-//
-//set_decl:
-//        SET TEXT* WS*
-//        (OB WS* (USER_FIELDS| NAME_FIELD | TASK_FIELD | TASK_PROJ_FIELDS)*
-//        WS* CB)+ SC;
-//
-//set_deps:
-//        SET DEPS WS*
-//        OB WS* (SET_DEPS WS* COMMA? WS*)*
-//        WS* CB SC;
+
 //
 //func_decl:
 //        FUNC WS* OB func_fields* CB SC;
