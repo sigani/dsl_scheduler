@@ -221,6 +221,150 @@ export default class TaskProjectParserListener extends antlr4.tree.ParseTreeList
 	}
 
 
+	// Enter a parse tree produced by TaskProjectParser#setCallbacks.
+	enterSetCallbacks(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#setCallbacks.
+	exitSetCallbacks(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#callBackFields.
+	enterCallBackFields(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#callBackFields.
+	exitCallBackFields(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#onUnblock.
+	enterOnUnblock(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#onUnblock.
+	exitOnUnblock(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#reminder.
+	enterReminder(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#reminder.
+	exitReminder(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#func.
+	enterFunc(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#func.
+	exitFunc(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#functionBody.
+	enterFunctionBody(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#functionBody.
+	exitFunctionBody(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#funcFields.
+	enterFuncFields(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#funcFields.
+	exitFuncFields(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#conditional.
+	enterConditional(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#conditional.
+	exitConditional(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#condition.
+	enterCondition(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#condition.
+	exitCondition(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#block.
+	enterBlock(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#block.
+	exitBlock(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#blockFields.
+	enterBlockFields(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#blockFields.
+	exitBlockFields(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#assign.
+	enterAssign(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#assign.
+	exitAssign(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#started.
+	enterStarted(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#started.
+	exitStarted(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#blocked.
+	enterBlocked(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#blocked.
+	exitBlocked(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#finished.
+	enterFinished(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#finished.
+	exitFinished(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#ping.
+	enterPing(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#ping.
+	exitPing(ctx) {
+	}
+
+
 	// Enter a parse tree produced by TaskProjectParser#array.
 	enterArray(ctx) {
 	}
@@ -290,6 +434,15 @@ export default class TaskProjectParserListener extends antlr4.tree.ParseTreeList
 
 	// Exit a parse tree produced by TaskProjectParser#varname.
 	exitVarname(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TaskProjectParser#funcname.
+	enterFuncname(ctx) {
+	}
+
+	// Exit a parse tree produced by TaskProjectParser#funcname.
+	exitFuncname(ctx) {
 	}
 
 
