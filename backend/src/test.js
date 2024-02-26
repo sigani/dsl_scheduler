@@ -50,15 +50,17 @@ import DynamoDBEventBridgeManager from "./ui/DynamoDBEventBridgeManager.js";
 //     "  tasks: {task2, task1},\n" +
 //     "}\;\n" ;
 
-const chars = CharStreams.fromPathSync("input.txt");
+const chars = CharStreams.fromPathSync("../input.txt", "utf-8");
 const lexer = new TaskProjectLexer(chars);
 const tokens = new antlr4.CommonTokenStream(lexer);
 const parser = new TaskProjectParser(tokens);
 const visitor = new ParserTreeToAST();
 const program = parser.program().accept(visitor);
 let dbmanager = new DynamoDBEventBridgeManager();
+
 dbmanager.transformFunctions(program);
-// console.log(program.funcs);
+
+console.log(program.funcs);
 
 // for (let statement of parser.program().func()[0].functionBody().funcFields()[2].conditional().getChild(0)) {
 //     console.log(statement.getText());

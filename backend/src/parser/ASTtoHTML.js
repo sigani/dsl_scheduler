@@ -29,6 +29,9 @@ class ParseHTML {
         let tasks = [];
         let projects = [];
         let users = [];
+
+        console.log(items)
+
         for (let item of items) {
             if (item.type === "task") {
                 tasks.push(item);
@@ -76,12 +79,33 @@ class ParseHTML {
             html += this.parseProject(projects[i])
             html += "  </tr> \n"
         }
+        html += "</table>"
+
+        // Parse all Users
+        html += "<h1>Users</h1> \n <table> \n" +
+            "  <tr> \n" +
+            "    <th>Name</th> \n" +
+            "    <th>Email</th> \n" +
+            "  </tr> \n"
+
+        for (let i = 0; i < users.length; i++) {
+            html += "  <tr> \n"
+            html += this.parseUser(users[i])
+            html += "  </tr> \n"
+        }
+        html += "</table>"
+
         return html
     }
 
+    parseUser(user){
+        let row= "      <td>" + user?.name + "</td> \n"
+        row += "      <td>" + user?.email + "</td> \n"
+        return row
+    }
+
     parseTask(task) {
-        let row = ""
-        row += "      <td>" + task.name + "</td> \n"
+        let row= "      <td>" + task.name + "</td> \n"
         row += task.description ? "      <td>" + task?.description + "</td> \n" : "      <td></td> \n"
         row += task.deadline ? "      <td>" + task.deadline + "</td> \n" : "      <td></td> \n"
         row += task.status ? "      <td>" + task.status + "</td> \n" : "      <td></td> \n"
