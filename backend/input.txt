@@ -31,6 +31,7 @@ user user3 {
 };
 
 task task4 {
+    name: "ouiawdhhdjkolawhljkadw",
     deps: {task1, task2, project1},
 };
 
@@ -43,10 +44,6 @@ set user1 {
     email: "test@icloud.com"
 };
 
-set task2 {
-    deps: {task1},
-
-};
 
 set deps {
     task1->task3,
@@ -61,6 +58,11 @@ function test     () {
 function test2 () {
 };
 
+set task2 {
+    deps: {task1},
+    callbacks: {reminder1800: test2}
+};
+
 set task1 {
-    callbacks: {onUnblock: test, reminder1200: test2}
+    callbacks: {reminder1200: test}
 };

@@ -3,6 +3,10 @@ dotenv.config();
 import AWS from "aws-sdk";
 import fs from "fs";
 import archiver from "archiver";
+import {
+  SchedulerClient,
+  CreateScheduleCommand,
+} from "@aws-sdk/client-scheduler";
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -11,6 +15,8 @@ AWS.config.update({
 });
 
 // https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/Welcome.html
+// https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/EventBridge.html
+
 export default class DynamoDBEventBridgeManager {
   constructor() {
     this.dynamodb = new AWS.DynamoDB();
@@ -91,7 +97,16 @@ export default class DynamoDBEventBridgeManager {
   }
 
   //https://docs.aws.amazon.com/lambda/latest/dg/example_lambda_Invoke_section.html
-  async transformFunctions(program, tableName = "test") {
+  async transformFunctions(
+    list_funcs,
+    tableName = "test",
+    time = "0000",
+    funcName = "water"
+  ) {
+    if (list_funcs.length == 0) {
+      return;
+    }
+
     let initial = `
     import { LambdaClient, InvokeCommand } from "@aws-sdk/client-lambda";
 
@@ -119,92 +134,67 @@ export default class DynamoDBEventBridgeManager {
 
     let boolcheck = false;
     let ifCheck = false;
-    for (let [key, value] of program.funcs.entries()) {
-      // reset everything
-      initial = `
-      import { LambdaClient, InvokeCommand } from "@aws-sdk/client-lambda";
-
-      export const handler = async (event) => {
-        let temp;
-        let _;
-        let body = "Done";
-        let statusCode = '200';
-        const invoke = async (funcName, payload) => {
-          const client = new LambdaClient({});
-          const command = new InvokeCommand({
-            FunctionName: funcName,
-            Payload: JSON.stringify(payload),
-            LogType: "Tail",
-            InvocationType: "RequestResponse",
-          });
-
-          const { Payload, LogResult } = await client.send(command);
-          const result = Buffer.from(Payload).toString();
-          const logs = Buffer.from(LogResult, "base64").toString();
-          return { logs, result };
-        };
-        
-      `;
+    // reset everything
+    for (let i = 0; i < list_funcs.length; i++) {
       boolcheck = false;
       ifCheck = false;
-      for (let i = 0; i < value.length; i++) {
-        boolcheck = false;
-        ifCheck = false;
-        let cmd = value[i];
-
-        if (cmd === "}" || cmd === "{" || cmd.startsWith("else")) {
-          initial += cmd;
-          continue;
+      let cmd = list_funcs[i];
+      if (cmd === "}" || cmd === "{" || cmd.startsWith("else")) {
+        initial += cmd;
+        continue;
+      }
+      if (cmd.startsWith("if")) {
+        ifCheck = true;
+        cmd = cmd.substring(cmd.indexOf("(") + 1, cmd.indexOf(")") + 1);
+        if (cmd.startsWith("!")) {
+          cmd = cmd.substring(1);
+          boolcheck = true;
         }
-        if (cmd.startsWith("if")) {
-          ifCheck = true;
-          cmd = cmd.substring(cmd.indexOf("(") + 1, cmd.indexOf(")") + 1);
-          if (cmd.startsWith("!")) {
-            cmd = cmd.substring(1);
-            boolcheck = true;
-          }
-        }
+      }
 
-        let func = cmd.substring(0, cmd.indexOf("("));
-        let rest = cmd.substring(cmd.indexOf("(") + 1, cmd.length - 1);
-        if (rest.includes(",")) {
-          rest = rest.split(",");
-        } else {
-          rest = [rest];
-        }
+      let func = cmd.substring(0, cmd.indexOf("("));
+      let rest = cmd.substring(cmd.indexOf("(") + 1, cmd.length - 1);
+      if (rest.includes(",")) {
+        rest = rest.split(",");
+      } else {
+        rest = [rest];
+      }
 
-        if (ifCheck) {
-          initial += `
+      if (ifCheck) {
+        initial += `
           _, temp = await invoke("${func}", {"tableName": "${tableName}", "var1": ${
-            rest[0]
-          }, "var2": ${rest[1] ? rest[1] : '""'}});
+          rest[0]
+        }, "var2": ${rest[1] ? rest[1] : '""'}});
           
           if (${boolcheck ? "!" : ""}(JSON.parse(temp.result).body==="true")) 
             `;
-        } else if (func.length > 0) {
-          let transform = `
+      } else if (func.length > 0) {
+        let transform = `
           _, temp = await invoke("${func}", {"tableName": "${tableName}", "var1": ${
-            rest[0]
-          }, "var2": ${rest[1] ? rest[1] : '""'}});
+          rest[0]
+        }, "var2": ${rest[1] ? rest[1] : '""'}});
           `;
-          initial += transform;
-        }
+        initial += transform;
       }
-      initial += `
+    }
+    initial += `
           return {
             statusCode,
             body,
         };
       }
       `;
-      console.log(initial);
-      await this.convertToZip(initial, tableName + "_" + key);
-      let arn = await this.createLambdaFunction(
-        tableName + "_" + key,
-        fs.readFileSync(tableName + "_" + key + ".zip")
-      );
-      this.createEventBridgeRule(arn, "1700");
-    }
+    console.log(tableName + "_" + funcName + "_" + time);
+    await this.convertToZip(initial, tableName + "_" + funcName);
+    let arn = await this.createLambdaFunction(
+      tableName + "_" + funcName,
+      fs.readFileSync(tableName + "_" + funcName + ".zip")
+    );
+    this.createEventBridgeRule(
+      arn,
+      time,
+      tableName + "_" + funcName + "_" + time
+    );
   }
 
   createLambdaFunction(name, zip) {
@@ -236,26 +226,30 @@ export default class DynamoDBEventBridgeManager {
     const minute = time.substring(2);
     return `cron(${minute} ${hour} * * ? *)`;
   }
-
-  createEventBridgeRule(lambdaArn, time) {
-    const events = new AWS.EventBridge();
+  async createEventBridgeRule(lambdaArn, time, name) {
     const cronexp = this.timeToCron(time);
-    let params = {
-      Name: "myRule",
-      ScheduleExpression: cronexp,
+    const client = new SchedulerClient();
+    console.log(cronexp);
+    const input = {
+      // CreateScheduleInput
+      Name: name, // required
+      ScheduleExpression: cronexp, // required
       State: "ENABLED",
-      Targets: [
-        {
-          Arn: lambdaArn,
-          Id: "myTargetId",
-        },
-      ],
+      ScheduleExpressionTimezone: "America/Los_Angeles",
+      Target: {
+        // Target
+        Arn: lambdaArn, // required
+        RoleArn: "arn:aws:iam::975050298432:role/jaren", // required
+      },
+      FlexibleTimeWindow: {
+        // FlexibleTimeWindow
+        Mode: "FLEXIBLE", // required
+        MaximumWindowInMinutes: 10,
+      },
     };
-
-    events.putRule(params, function (err, data) {
-      if (err) console.log(err, err.stack);
-      else console.log(data);
-    });
+    const command = new CreateScheduleCommand(input);
+    const response = await client.send(command);
+    console.log(response, "AFTER EVENTBRIDGESCHEDULER SENTS!!!!!!!!!!");
   }
 
   // EVERYTHING BELOW THIS ARE HELPER FUNCTIONS
@@ -335,7 +329,7 @@ export default class DynamoDBEventBridgeManager {
         console.log("Error", err);
         return false;
       } else {
-        console.log("Table Created", data);
+        console.log("Table Created");
         // Wait for the table to become ACTIVE
         this.dynamodb.waitFor(
           "tableExists",
@@ -345,7 +339,7 @@ export default class DynamoDBEventBridgeManager {
               console.log(err, err.stack); // an error occurred
               return false;
             } else {
-              console.log("Table is ACTIVE", data); // successful response
+              console.log("Table is ACTIVE"); // successful response
               // Now you can insert items
               return this.fillTable(tableName, schedule);
             }
@@ -356,7 +350,7 @@ export default class DynamoDBEventBridgeManager {
   }
 
   // helper function to fill the table with some data
-  fillTable(tableName, schedule) {
+  async fillTable(tableName, schedule) {
     const items = [];
     for (let i = 0; i < schedule.projects.length; i++) {
       items.push({
@@ -379,6 +373,18 @@ export default class DynamoDBEventBridgeManager {
         status: schedule.tasks[i]?.status,
         priority: schedule.tasks[i]?.priority,
       });
+      if (schedule.tasks[i]?.reminder) {
+        let reminder = schedule.tasks[i]?.reminder;
+        let time = reminder.getTime();
+        let func = reminder.getFuncName();
+        console.log(schedule.funcs.get(func));
+        await this.transformFunctions(
+          schedule.funcs.get(func),
+          tableName,
+          time,
+          func
+        );
+      }
     }
 
     for (let i = 0; i < schedule.users.length; i++) {
@@ -408,7 +414,7 @@ export default class DynamoDBEventBridgeManager {
         console.log("Error", err);
         return false;
       } else {
-        console.log("Item Inserted", data);
+        console.log("Item Inserted");
         return true;
       }
     });

@@ -22,6 +22,7 @@
     "nodemon": "^3.0.3"
   },
   "dependencies": {
+    "@aws-sdk/client-scheduler": "^3.521.0",
     "antlr4": "^4.13.1-patch-1",
     "archiver": "^6.0.1",
     "aws-sdk": "^2.1561.0",
