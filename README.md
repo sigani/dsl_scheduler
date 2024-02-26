@@ -12,3 +12,5 @@
 7. run `npm run dev`  
 8. open localhost  
 9. go BANANAS  
+## Note
+The checkins are in the backend folder
