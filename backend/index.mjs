@@ -22,7 +22,9 @@
       };
       
     
-          _, temp = await invoke("ping", {"tableName": "two_words", "var1": "jaren", "var2": ""});
+          _, temp = await invoke("ping", {"tableName": "school", "var1": "Jaren", "var2": "REMINDER TO STAN NEWJEANS"});
+          
+          _, temp = await invoke("ping", {"tableName": "school", "var1": "minji", "var2": "ping sent to jaren so he stans newjeans!!!"});
           
           return {
             statusCode,

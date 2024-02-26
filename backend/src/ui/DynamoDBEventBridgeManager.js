@@ -51,7 +51,6 @@ export default class DynamoDBEventBridgeManager {
           "Error deleting table (probably fine, means it never existed in first place hopefully)",
           err
         );
-        return false;
       }
 
       try {
@@ -106,6 +105,32 @@ export default class DynamoDBEventBridgeManager {
     if (list_funcs.length == 0) {
       return;
     }
+    const lambda = new AWS.Lambda();
+    lambda
+      .getFunction({ FunctionName: tableName + "_" + funcName })
+      .promise()
+      .then(async (data) => {
+        console.log(`Function ${funcName} exists.`);
+        console.log(tableName + "_" + funcName + "_" + time);
+        await this.convertToZip(initial, tableName + "_" + funcName);
+        let arn = await this.createLambdaFunction(
+          tableName + "_" + funcName,
+          fs.readFileSync(tableName + "_" + funcName + ".zip")
+        );
+        await this.createEventBridgeRule(
+          arn,
+          time,
+          tableName + "_" + funcName + "_" + time
+        );
+        return;
+      })
+      .catch((err) => {
+        if (err.code === "ResourceNotFoundException") {
+          console.log(`Function ${funcName} does not exist.`);
+        } else {
+          console.log(err, err.stack);
+        }
+      });
 
     let initial = `
     import { LambdaClient, InvokeCommand } from "@aws-sdk/client-lambda";
@@ -351,6 +376,7 @@ export default class DynamoDBEventBridgeManager {
 
   // helper function to fill the table with some data
   async fillTable(tableName, schedule) {
+    console.log(schedule);
     const items = [];
     for (let i = 0; i < schedule.projects.length; i++) {
       items.push({
@@ -361,6 +387,9 @@ export default class DynamoDBEventBridgeManager {
         status: schedule.projects[i]?.status,
         priority: schedule.projects[i]?.priority,
         tasks: schedule.projects[i]?.tasks?.map((task) => task.name),
+        users: schedule.projects[i]?.users?.map((user) => user.name),
+        deadline: schedule.projects[i]?.deadline,
+        deps: schedule.projects[i]?.deps?.map((dep) => dep.name),
       });
     }
 
@@ -372,6 +401,9 @@ export default class DynamoDBEventBridgeManager {
         date: schedule.tasks[i]?.date,
         status: schedule.tasks[i]?.status,
         priority: schedule.tasks[i]?.priority,
+        deadline: schedule.tasks[i]?.deadline,
+        users: schedule.tasks[i]?.users?.map((user) => user.name),
+        deps: schedule.tasks[i]?.deps?.map((dep) => dep.name),
       });
       if (schedule.tasks[i]?.reminder) {
         let reminder = schedule.tasks[i]?.reminder;

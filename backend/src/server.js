@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import TaskProjectDSL from "./ui/index.js";
 import DynamoDBEventBridgeManager from "./ui/DynamoDBEventBridgeManager.js";
+import ParseHTML from "./parser/ASTtoHTML.js";
 
 const app = express();
 
@@ -37,10 +38,11 @@ app.post("/submit", async (req, res) => {
 
 app.get("/fetch", async (req, res) => {
   let name = req.query.name;
-  console.log(name);
   let dbmanager = new DynamoDBEventBridgeManager();
   let data = await dbmanager.fetchTable(name);
-  res.status(200).send(data);
+  let helper = new ParseHTML();
+  let response = helper.getHTML(data);
+  res.status(200).send(response);
 });
 
 app.listen(3000, () => {

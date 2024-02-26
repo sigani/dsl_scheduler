@@ -9,6 +9,7 @@ function App() {
   const [title, setTitle] = useState("");
   const [fetchName, setFetchName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [htmlContent, setHtmlContent] = useState("");
 
   const submitSchedule = () => {
     setIsLoading(true);
@@ -43,11 +44,11 @@ function App() {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
-        return res.json();
+        return res.text();
       })
       .then((data) => {
-        alert(JSON.stringify(data, null, 2));
         console.log(data);
+        setHtmlContent(data);
       })
       .catch((err) => {
         console.log(err);
@@ -92,6 +93,10 @@ function App() {
         <Button variant="contained" color="primary" onClick={fetchTable}>
           Fetch
         </Button>
+        <div
+          className="replace"
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
+        ></div>
       </div>
     </div>
   );
