@@ -2,6 +2,7 @@ import antlr4, { CharStreams } from "antlr4";
 import TaskProjectLexer from "./parser/TaskProjectLexer.js";
 import TaskProjectParser from "./parser/TaskProjectParser.js";
 import ParserTreeToAST from "./parser/ParserTreeToAST.js";
+import DynamoDBEventBridgeManager from "./ui/DynamoDBEventBridgeManager.js";
 
 // const input =
 //     "task   task1   {  \n" +
@@ -55,8 +56,9 @@ const tokens = new antlr4.CommonTokenStream(lexer);
 const parser = new TaskProjectParser(tokens);
 const visitor = new ParserTreeToAST();
 const program = parser.program().accept(visitor);
-
-console.log(program);
+let dbmanager = new DynamoDBEventBridgeManager();
+dbmanager.transformFunctions(program);
+// console.log(program.funcs);
 
 // for (let statement of parser.program().func()[0].functionBody().funcFields()[2].conditional().getChild(0)) {
 //     console.log(statement.getText());

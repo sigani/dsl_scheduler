@@ -19,14 +19,20 @@ app.post("/submit", async (req, res) => {
   let code = data.code;
 
   // convert code into Program object
-  let program = TaskProjectDSL.createProgram(code);
-  if (program === null) {
-    console.log("Invalid code");
-    res.status(400).send("Invalid code");
+  try {
+    let program = TaskProjectDSL.createProgram(code);
+    let dbmanager = new DynamoDBEventBridgeManager();
+    let test = await dbmanager.createTable(program, nameOfSchedule);
+    console.log(test);
+    res
+      .status(200)
+      .send(
+        "Table successfully created!  It may take a few moments to reflect on the server"
+      );
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send(error.message);
   }
-  let dbmanager = new DynamoDBEventBridgeManager();
-  await dbmanager.createTable(program, nameOfSchedule);
-  res.status(200).send("Data submitted successfully!");
 });
 
 app.get("/fetch", async (req, res) => {
