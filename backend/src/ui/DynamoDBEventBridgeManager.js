@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 import AWS from "aws-sdk";
+import fs from "fs";
+import archiver from "archiver";
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -32,26 +34,26 @@ export default class DynamoDBEventBridgeManager {
         console.log("Error idkkkkkkkkkkkkkk", err);
         return false;
       }
-    }
+    } finally {
+      // If table exists, delete it
+      try {
+        await this.deleteTable(tableName);
+        await this.waitForTableNotExists(tableName);
+        // Then create a new one
+      } catch (err) {
+        console.log(
+          "Error deleting table (probably fine, means it never existed in first place hopefully)",
+          err
+        );
+        return false;
+      }
 
-    // If table exists, delete it
-    try {
-      await this.deleteTable(tableName);
-      await this.waitForTableNotExists(tableName);
-      // Then create a new one
-    } catch (err) {
-      console.log(
-        "Error deleting table (probably fine, means it never existed in first place hopefully)",
-        err
-      );
-      return false;
-    }
-
-    try {
-      return await this.createDynamoDBTable(tableName, schedule);
-    } catch (err) {
-      console.log("Error creating table", err);
-      return false;
+      try {
+        return await this.createDynamoDBTable(tableName, schedule);
+      } catch (err) {
+        console.log("Error creating table", err);
+        return false;
+      }
     }
   }
 
@@ -74,6 +76,188 @@ export default class DynamoDBEventBridgeManager {
     });
   }
 
+  convertToZip(string, name) {
+    return new Promise((resolve, reject) => {
+      let zip = new archiver("zip");
+      let output = fs.createWriteStream(name + ".zip");
+      fs.writeFileSync("index.mjs", string);
+      zip.append(string, { name: "index.mjs" });
+      // pipe archive data to the file
+      zip.pipe(output);
+      zip.on("error", reject);
+      output.on("close", () => resolve(zip));
+      zip.finalize();
+    });
+  }
+
+  //https://docs.aws.amazon.com/lambda/latest/dg/example_lambda_Invoke_section.html
+  async transformFunctions(program, tableName = "test") {
+    let initial = `
+    import { LambdaClient, InvokeCommand } from "@aws-sdk/client-lambda";
+
+    export const handler = async (event) => {
+      let temp;
+      let _;
+      let body = "Done";
+      let statusCode = '200';
+      const invoke = async (funcName, payload) => {
+        const client = new LambdaClient({});
+        const command = new InvokeCommand({
+          FunctionName: funcName,
+          Payload: JSON.stringify(payload),
+          LogType: "Tail",
+          InvocationType: "RequestResponse",
+        });
+
+        const { Payload, LogResult } = await client.send(command);
+        const result = Buffer.from(Payload).toString();
+        const logs = Buffer.from(LogResult, "base64").toString();
+        return { logs, result };
+      };
+      
+    `;
+
+    let boolcheck = false;
+    let ifCheck = false;
+    for (let [key, value] of program.funcs.entries()) {
+      // reset everything
+      initial = `
+      import { LambdaClient, InvokeCommand } from "@aws-sdk/client-lambda";
+
+      export const handler = async (event) => {
+        let temp;
+        let _;
+        let body = "Done";
+        let statusCode = '200';
+        const invoke = async (funcName, payload) => {
+          const client = new LambdaClient({});
+          const command = new InvokeCommand({
+            FunctionName: funcName,
+            Payload: JSON.stringify(payload),
+            LogType: "Tail",
+            InvocationType: "RequestResponse",
+          });
+
+          const { Payload, LogResult } = await client.send(command);
+          const result = Buffer.from(Payload).toString();
+          const logs = Buffer.from(LogResult, "base64").toString();
+          return { logs, result };
+        };
+        
+      `;
+      boolcheck = false;
+      ifCheck = false;
+      for (let i = 0; i < value.length; i++) {
+        boolcheck = false;
+        ifCheck = false;
+        let cmd = value[i];
+
+        if (cmd === "}" || cmd === "{" || cmd.startsWith("else")) {
+          initial += cmd;
+          continue;
+        }
+        if (cmd.startsWith("if")) {
+          ifCheck = true;
+          cmd = cmd.substring(cmd.indexOf("(") + 1, cmd.indexOf(")") + 1);
+          if (cmd.startsWith("!")) {
+            cmd = cmd.substring(1);
+            boolcheck = true;
+          }
+        }
+
+        let func = cmd.substring(0, cmd.indexOf("("));
+        let rest = cmd.substring(cmd.indexOf("(") + 1, cmd.length - 1);
+        if (rest.includes(",")) {
+          rest = rest.split(",");
+        } else {
+          rest = [rest];
+        }
+
+        if (ifCheck) {
+          initial += `
+          _, temp = await invoke("${func}", {"tableName": "${tableName}", "var1": ${
+            rest[0]
+          }, "var2": ${rest[1] ? rest[1] : '""'}});
+          
+          if (${boolcheck ? "!" : ""}(JSON.parse(temp.result).body==="true")) 
+            `;
+        } else if (func.length > 0) {
+          let transform = `
+          _, temp = await invoke("${func}", {"tableName": "${tableName}", "var1": ${
+            rest[0]
+          }, "var2": ${rest[1] ? rest[1] : '""'}});
+          `;
+          initial += transform;
+        }
+      }
+      initial += `
+          return {
+            statusCode,
+            body,
+        };
+      }
+      `;
+      console.log(initial);
+      await this.convertToZip(initial, tableName + "_" + key);
+      let arn = await this.createLambdaFunction(
+        tableName + "_" + key,
+        fs.readFileSync(tableName + "_" + key + ".zip")
+      );
+      this.createEventBridgeRule(arn, "1700");
+    }
+  }
+
+  createLambdaFunction(name, zip) {
+    const lambda = new AWS.Lambda();
+    const params = {
+      Code: { ZipFile: zip },
+      FunctionName: name,
+      Handler: "index.handler",
+      Role: "arn:aws:iam::975050298432:role/jaren",
+      Runtime: "nodejs20.x",
+    };
+
+    return new Promise((resolve, reject) => {
+      lambda.createFunction(params, (err, data) => {
+        if (err) {
+          console.log("Error", err);
+          reject(err);
+        } else {
+          console.log("Success", data);
+          console.log("TEH ARNNNNNNNN", data.FunctionArn);
+          resolve(data.FunctionArn);
+        }
+      });
+    });
+  }
+
+  timeToCron(time) {
+    const hour = time.substring(0, 2);
+    const minute = time.substring(2);
+    return `cron(${minute} ${hour} * * ? *)`;
+  }
+
+  createEventBridgeRule(lambdaArn, time) {
+    const events = new AWS.EventBridge();
+    const cronexp = this.timeToCron(time);
+    let params = {
+      Name: "myRule",
+      ScheduleExpression: cronexp,
+      State: "ENABLED",
+      Targets: [
+        {
+          Arn: lambdaArn,
+          Id: "myTargetId",
+        },
+      ],
+    };
+
+    events.putRule(params, function (err, data) {
+      if (err) console.log(err, err.stack);
+      else console.log(data);
+    });
+  }
+
   // EVERYTHING BELOW THIS ARE HELPER FUNCTIONS
   // EVERYTHING BELOW THIS ARE HELPER FUNCTIONS
   // EVERYTHING BELOW THIS ARE HELPER FUNCTIONS
@@ -93,11 +277,12 @@ export default class DynamoDBEventBridgeManager {
     };
 
     try {
-      await this.createTable(params);
+      await this.dynamodb.createTable(params);
       await this.waitForTableExists(tableName);
       return this.fillTable(tableName, schedule);
     } catch (err) {
       console.log("Error", err);
+      return false;
     }
   }
 

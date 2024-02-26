@@ -36,7 +36,7 @@ export default class TaskProjectDSL {
     } catch (error) {
       console.log("Error parsing code");
       console.error(error);
-      return null;
+      throw error;
     }
   }
 }
