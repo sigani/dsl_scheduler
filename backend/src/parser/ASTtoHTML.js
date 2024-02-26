@@ -25,6 +25,20 @@ class ParseHTML {
     }
 
     parseProgram(program) {
+        let items = program.Items;
+        let tasks = [];
+        let projects = [];
+        let users = [];
+        for (let item of items) {
+            if (item.type === "task") {
+                tasks.push(item);
+            } else if (item.type === "project") {
+                projects.push(item);
+            } else {
+                users.push(item);
+            }
+        }
+
         let html = "<h1>Tasks</h1> \n <table> \n" +
             "  <tr> \n" +
             "    <th>Task</th> \n" +
@@ -37,9 +51,9 @@ class ParseHTML {
             "  </tr> \n"
 
         //Parse all tasks
-        for (let i = 0; i < program.tasks.length; i++) {
+        for (let i = 0; i < tasks.length; i++) {
             html += "  <tr> \n"
-            html += this.parseTask(program.tasks[i])
+            html += this.parseTask(tasks[i])
             html += "  </tr> \n"
         }
         html += "</table>"
@@ -57,9 +71,9 @@ class ParseHTML {
             "    <th>Dependencies</th> \n" +
             "  </tr> \n"
 
-        for (let i = 0; i < program.projects.length; i++) {
+        for (let i = 0; i < projects.length; i++) {
             html += "  <tr> \n"
-            html += this.parseProject(program.projects[i])
+            html += this.parseProject(projects[i])
             html += "  </tr> \n"
         }
         return html
@@ -100,7 +114,7 @@ class ParseHTML {
         row += "      </ul></td> \n"
         row += "      <td><ul> \n"
         for (let i = 0; i < project.tasks?.length; i++) {
-            row += "            <li>" + project.tasks[i].name + "</li> \n"
+            row += "            <li>" + project.tasks[i] + "</li> \n"
         }
         row += "      </ul></td> \n"
         row += "      <td><ul> \n"
