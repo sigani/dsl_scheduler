@@ -8,8 +8,10 @@ function App() {
   const [code, setCode] = useState("");
   const [title, setTitle] = useState("");
   const [fetchName, setFetchName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const submitSchedule = () => {
+    setIsLoading(true);
     console.log(title, code);
     fetch("http://localhost:3000/submit", {
       method: "POST",
@@ -19,14 +21,16 @@ function App() {
       body: JSON.stringify({ name: title, code: code }),
     })
       .then((res) => {
+        setIsLoading(false);
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          res.text().then((text) => alert(text));
+        } else {
+          res.text().then((text) => alert(text));
         }
-        alert("Schedule saved successfully");
-        console.log(res);
       })
       .catch((err) => {
-        alert("Error saving schedule: yo code invaldi");
+        setIsLoading(false);
+        alert(err);
         console.log(err);
       });
   };
@@ -54,6 +58,7 @@ function App() {
     <div style={{ display: "flex" }}>
       <div style={{ height: "100vh", width: "50vw" }}>
         <div className="button-container">
+          {isLoading ? <p>SENDING TO SERVER.....</p> : null}
           <TextField
             id="standard-basic"
             label="Schedule Name"
