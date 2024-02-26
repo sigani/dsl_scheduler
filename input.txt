@@ -1,54 +1,101 @@
-task   task1   {
-    name: "Task 1",
-    description: "This is a sample task",
-    deadline: "2024-02-20",
-    status: "In Progress",
-    priority: 2,
+user jaren {
+  name: "Jaren",
+  email: "jaren.agujo@gmail.com"
 };
 
-task task2 "Task 2";
-
-project project1 {
-    name: "Project 1",
-    description: "This is a sample project",
-    status: "In Progress",
-    tasks: {task1, task2}
+user minji {
+  name: "minji",
+  email: "jaren123@student.ubc.ca"
 };
 
-user user1 "User 1";
-
-user user2 {
-    name: "Yuhei",
-    email: "yuhei61627@icloud.com",
-    tasks: {task1},
+user hanni {
+  name: "hanni",
 };
 
-user user3 {
-    name: "Arimoto",
-    email: "yuhei61627@gmail.com",
-    tasks: {task2},
-    additional: {"test": "test", "TTE":"TESD"}
+task task1 {
+  name: "cook dumplings",
+  description: "cook em loool",
+  status: "not started",
+  priority: 1000,
+};
+
+task task2 {
+  name: "create world hunger",
+  description: "im a bit hungry haha",
+  status: "in progress",
+  priority: 5,
+};
+
+task task3 {
+  name: "solve world hunger",
+  description: "thanos maybe?",
+  status: "not started",
+  priority: 1,
+  deps: {task2},
 };
 
 task task4 {
-    deps: {task1, task2, project1},
+  name: "show world p vs np proof",
+  description: "its just on my computer but im lazy",
+  status: "not started",
+  priority: 1,
 };
 
-task task3 "Task 3";
-
-project project2 "Project 2";
-
-set user1 {
-    email: "test@gmail.com",
-    email: "test@icloud.com"
+task task5 {
+  name: "divide by 0 proof",
+  status: "not started",
+  priority: 0,
 };
 
-set task2 {
-    deps: {task1},
+task task6 {
+  name: "research r4 bus lines",
+  description: "y don't they run more?",
+  status: "not started",
+  priority: 1,
+  deadline: "2025-01-01",
+};
+
+task task7 {
+  name: "stan newjeans",
+  description: "its just on my computer but im lazy",
+  status: "finished",
+  priority: 9000,
+};
+
+project p1 {
+  name: "food things",
+  description: "food related tasks",
+  tasks: {task1, task2, task3},
+};
+
+project p2 {
+  name: "not food related things",
+  description: "but im hungry",
+  tasks: {task4, task5, task6},
+};
+
+function f1() {
+  ping(jaren, "REMINDER TO STAN NEWJEANS");
+  ping(minji, "ping sent to jaren so he stans newjeans!!!");
+};
+
+function f2() {
+  if (!finished(task6)) {
+    ping(task6);
+    assign(jaren, task6);
+  };
 };
 
 set deps {
-    task1->task3,
-    task2->task3,
-    task1->project2,
+  task4->task5,
 };
+
+set task7 {
+  callbacks: {reminder2215:f1},
+  users: {jaren}
+};
+set task6 {
+  callbacks: {reminder0000:f2},
+  users: {minji, hanni}
+}
+
