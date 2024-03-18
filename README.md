@@ -32,7 +32,7 @@ task nameoftask {
     priority: 9, 
     deps: {task1, task2},
     users: {user1, user2},
-    callbacks: {onUnblock: function,},
+    callbacks: {reminder1025: function,},
 }; // can omit some fields
 
 user nameofuser {
